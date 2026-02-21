@@ -1,593 +1,152 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Process Automation Lecture 2 – RPA Foundations</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Process Automation Lecture 2 – RPA Foundations</title>
 
-  <style>
-    :root { --bg:#0b1220; --card:#111a2e; --text:#e7eefc; --muted:#a8b3cf; --accent:#4da3ff; --good:#3ddc97; --bad:#ff5c7a; }
-    *{ box-sizing:border-box; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
-    body{ margin:0; background:linear-gradient(160deg,#081022,#0b1220); color:var(--text); }
-    header{ position:sticky; top:0; backdrop-filter: blur(10px); background:rgba(11,18,32,.7); border-bottom:1px solid rgba(255,255,255,.08); z-index:10; }
-    .wrap{ max-width:1000px; margin:0 auto; padding:18px 18px; }
-    .row{ display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
-    .title{ font-weight:700; letter-spacing:.2px; }
-    .sub{ color:var(--muted); font-size:14px; }
-    .bar{ height:10px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden; }
-    .bar > div{ height:100%; width:0%; background:linear-gradient(90deg,var(--accent),#7cc6ff); transition:width .25s ease; }
-    main{ padding:20px 0 60px; }
-    .card{ background:rgba(17,26,46,.85); border:1px solid rgba(255,255,255,.08); border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,.35); }
-    .cardPad{ padding:18px; }
-    .h1{ font-size:26px; margin:0 0 8px; }
-    .h2{ font-size:18px; margin:18px 0 10px; color:#d8e6ff; }
-    ul{ margin:10px 0 0 18px; color:var(--text); }
-    li{ margin:6px 0; }
-    .pill{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:rgba(77,163,255,.12); border:1px solid rgba(77,163,255,.35); color:#cfe7ff; font-size:12px; }
-    .btns{ display:flex; gap:10px; flex-wrap:wrap; }
-    button{
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.06);
-      color:var(--text);
-      padding:10px 14px;
-      border-radius:12px;
-      cursor:pointer;
-      transition:transform .04s ease, background .15s ease;
-    }
-    button:hover{ background:rgba(255,255,255,.10); }
-    button:active{ transform:translateY(1px); }
-    button.primary{ background:rgba(77,163,255,.20); border-color:rgba(77,163,255,.55); }
-    button.primary:hover{ background:rgba(77,163,255,.28); }
-    button.good{ background:rgba(61,220,151,.18); border-color:rgba(61,220,151,.50); }
-    button.bad{ background:rgba(255,92,122,.16); border-color:rgba(255,92,122,.45); }
-    .grid{ display:grid; grid-template-columns: 1fr; gap:14px; }
-    @media(min-width: 900px){ .grid{ grid-template-columns: 2fr 1fr; } }
-    .note{ color:var(--muted); font-size:14px; line-height:1.5; }
-    .quizOpt{ display:flex; gap:10px; align-items:flex-start; padding:10px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.04); margin:10px 0; }
-    .quizOpt input{ margin-top:3px; }
-    .feedback{ margin-top:10px; padding:10px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.03); }
-    .feedback.good{ border-color: rgba(61,220,151,.55); background:rgba(61,220,151,.10); }
-    .feedback.bad{ border-color: rgba(255,92,122,.55); background:rgba(255,92,122,.08); }
-    .kbd{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; padding:2px 6px; border-radius:8px; border:1px solid rgba(255,255,255,.15); background:rgba(0,0,0,.18); }
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f8;
+    line-height: 1.6;
+}
 
-    /* Drag-sort items */
-    .dragItem{
-      user-select:none;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px dashed rgba(255,255,255,.20);
-      background:rgba(255,255,255,.04);
-      margin:8px 0;
-      cursor:grab;
-      touch-action:none;
-    }
-    .dragItem.dragging{ opacity:.55; }
-    .dragGhost{
-      position:fixed;
-      z-index:99999;
-      pointer-events:none;
-      box-shadow:0 14px 40px rgba(0,0,0,.45);
-      opacity:.95;
-      cursor:grabbing;
-    }
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
 
-    .footerNav{ position:fixed; bottom:0; left:0; right:0; background:rgba(11,18,32,.75); border-top:1px solid rgba(255,255,255,.08); backdrop-filter: blur(10px); }
-    .footerNav .wrap{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
+h1 {
+    margin-top: 0;
+    font-size: 28px;
+}
 
-    /* Small content polish */
-    .quote{
-      margin:12px 0;
-      padding:12px 14px;
-      border-left:4px solid rgba(77,163,255,.75);
-      background:rgba(77,163,255,.08);
-      border-radius:14px;
-      color:#d9ecff;
-    }
-    .kpiGrid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap:10px;
-      margin-top:10px;
-    }
-    .kpi{
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.04);
-      border-radius:14px;
-      padding:12px;
-    }
-    .kpi strong{ display:block; font-size:13px; color:#d8e6ff; }
-    .kpi span{ display:block; margin-top:6px; color:var(--text); }
-    .tiny{ font-size:12px; color:var(--muted); margin-top:6px; }
-  </style>
+h2 {
+    margin-top: 30px;
+    color: #2c3e50;
+}
+
+.highlight {
+    background: #fff3cd;
+    padding: 10px;
+    border-left: 5px solid #ffc107;
+    border-radius: 6px;
+    margin: 15px 0;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.card {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #e2e6ea;
+}
+
+.toggle {
+    cursor: pointer;
+    color: #0d6efd;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+footer {
+    margin-top: 40px;
+    font-size: 14px;
+    color: #777;
+}
+</style>
 </head>
 
 <body>
-<header>
-  <div class="wrap">
-    <div class="row">
-      <div>
-        <div class="title" id="courseTitle">Interactive Lecture</div>
-        <div class="sub" id="courseSub">Lecture 2</div>
-      </div>
-      <div class="pill">
-        <span id="slideCounter">1 / 1</span>
-        <span>•</span>
-        <span>Keys:</span> <span class="kbd">←</span> <span class="kbd">→</span>
-      </div>
-    </div>
-    <div style="margin-top:12px" class="bar"><div id="progressFill"></div></div>
-  </div>
-</header>
 
-<main>
-  <div class="wrap">
-    <div class="grid">
-      <section class="card cardPad" id="slide"></section>
-      <aside class="card cardPad">
-        <div class="h2">Learning goals</div>
-        <ul id="goals"></ul>
+<div class="container">
 
-        <div class="h2">Quick actions</div>
-        <div class="btns">
-          <button id="btnReset" class="bad">Reset progress</button>
-          <button id="btnExport" class="primary">Export progress JSON</button>
-        </div>
-      </aside>
-    </div>
-  </div>
-</main>
+<h1>🤖 RPA Foundations</h1>
+<h2>What Can Robotic Process Automation (RPA) Do?</h2>
 
-<div class="footerNav">
-  <div class="wrap">
-    <div class="btns">
-      <button id="btnPrev">← Prev</button>
-      <button id="btnNext" class="primary">Next →</button>
-    </div>
-    <div class="sub" id="statusLine"></div>
-  </div>
+<p>
+Robotic Process Automation (RPA) has become one of the fastest-growing
+technologies in business automation. In recent years, it has attracted
+significant investment from global technology funds and enterprise software providers.
+</p>
+
+<h2>💰 Major Investments in RPA</h2>
+
+<ul>
+<li><strong>$300 million</strong> investment in Automation Anywhere by the SoftBank Vision Fund (2018)</li>
+<li>Total funding round exceeded <strong>$500 million</strong></li>
+<li>Strategic investor: <strong>Workday</strong>, a leading cloud-based ERP provider</li>
+</ul>
+
+<div class="highlight">
+“RPA is becoming a bigger focus for our customers, which is why it’s important
+for us to partner closely with Automation Anywhere, a market leader.”
+</div>
+
+<h2 class="toggle" onclick="toggleSection()">🚀 Rapid Growth of UiPath (click to expand)</h2>
+
+<div id="uipathSection" class="hidden">
+
+<p>
+In April 2019, UiPath raised <strong>$568 million</strong> in a Series B funding round,
+backed by major global investors.
+</p>
+
+<div class="card-grid">
+<div class="card">
+<strong>📈 Valuation</strong>
+<p>$110 million → $7 billion</p>
+</div>
+
+<div class="card">
+<strong>💵 Annual Recurring Revenue</strong>
+<p>$8 million → $200 million</p>
+</div>
+
+<div class="card">
+<strong>👥 Employees</strong>
+<p>16× growth to 2,500 employees</p>
+</div>
+</div>
+
+</div>
+
+<h2>🎯 Why This Matters</h2>
+
+<ul>
+<li>RPA is viewed as a transformative enterprise technology.</li>
+<li>Large corporations treat automation as a strategic capability.</li>
+<li>Demand for end-to-end process automation continues to grow rapidly.</li>
+</ul>
+
+<footer>
+Process Automation – Interactive Lecture 2
+</footer>
+
 </div>
 
 <script>
-/** ---------------------------------------------------------
- *  Lecture 2 data — blue style, no robot emoji
- *  --------------------------------------------------------- */
-const lessonData = {
-  courseTitle: "Process Automation – Lecture 2",
-  courseSub: "RPA Foundations • Market signals • Why it matters",
-  learningGoals: [
-    "Explain what RPA is and what it can do",
-    "Recognize why RPA gained strong market interest (investment, growth)",
-    "Differentiate RPA (task automation) from BPA (end-to-end orchestration) at a high level",
-    "Summarize benefits and limitations in one sentence"
-  ],
-  slides: [
-    { type:"content", title:"RPA Foundations", bullets:[
-      "Robotic Process Automation (RPA) automates repetitive, rule-based tasks performed through user interfaces (clicks, typing, copying data).",
-      "RPA is often used to connect or operate existing systems when direct integration is hard or slow.",
-      "RPA became a major trend because many business processes include high-volume manual work that is predictable."
-    ]},
-
-    { type:"content", title:"What the technology can do (examples)", bullets:[
-      "Move data between systems (ERP/CRM/web portals) without re-entry",
-      "Generate routine reports, confirmations, and notifications",
-      "Support approvals by collecting data and routing it to the right people",
-      "Run tasks on schedules (daily, weekly, end-of-month) with logs"
-    ]},
-
-    { type:"content", title:"Market interest: Automation Anywhere (2018)", bullets:[
-      "In 2018, Automation Anywhere announced a major funding round.",
-      "SoftBank Vision Fund invested $300M; the overall round exceeded $500M.",
-      "Strategic investors included Workday (cloud ERP), signaling enterprise adoption."
-    ]},
-
-    { type:"content", title:"Investor/enterprise takeaway", bullets:[
-      "Large investments indicate confidence that automation solves real operational pain.",
-      "Enterprise software vendors partner with RPA companies to serve customer demand.",
-      "This is a market signal: automation is becoming a standard capability."
-    ]},
-
-    { type:"content", title:"Rapid growth: UiPath (2019)", bullets:[
-      "UiPath announced a $568M Series B round (2019) backed by major investors.",
-      "The company reported very rapid scaling over roughly two years."
-    ],
-      extraHTML: `
-        <div class="kpiGrid" style="margin-top:12px">
-          <div class="kpi"><strong>Valuation</strong><span>$110M → $7B</span></div>
-          <div class="kpi"><strong>Annual recurring revenue</strong><span>$8M → $200M</span></div>
-          <div class="kpi"><strong>Employees</strong><span>≈16× growth to 2,500</span></div>
-        </div>
-        <div class="tiny">These numbers are used here as a “market signal” example for your lecture narrative.</div>
-      `
-    },
-
-    { type:"content", title:"RPA vs BPA (simple)", bullets:[
-      "RPA: automates specific tasks (UI actions) with rules and scripts.",
-      "BPA: automates the whole workflow end-to-end (routing + rules + integrations).",
-      "In practice: BPA may use RPA as one component inside a larger process."
-    ]},
-
-    { type:"quiz", title:"Quick Check 1", prompt:"Which statement best describes RPA?",
-      options:[
-        "End-to-end automation of an entire business process across departments",
-        "Automation of repetitive, rule-based tasks often performed via a user interface",
-        "Replacing all employees with robots",
-        "Only using AI to make decisions"
-      ],
-      answerIndex: 1,
-      explanation: "RPA typically automates repetitive UI-based tasks; BPA is the broader end-to-end process approach."
-    },
-
-    { type:"content", title:"Why this matters", bullets:[
-      "RPA adoption grew quickly because it can deliver value without rebuilding core systems.",
-      "However, automating a poor process can make problems happen faster.",
-      "Good practice: understand AS-IS, redesign TO-BE, then automate."
-    ]},
-
-    { type:"quiz", title:"Quick Check 2", prompt:"Why are large investments in RPA companies important for understanding the field?",
-      options:[
-        "They prove RPA is a toy technology used only in startups",
-        "They signal strong market demand and enterprise interest in automation",
-        "They mean RPA always works perfectly without process design",
-        "They show RPA replaces the need for system analysis"
-      ],
-      answerIndex: 1,
-      explanation: "Funding and partnerships are market signals: many organizations see real value and demand in automation."
-    },
-
-    { type:"order", title:"Activity: Automation path (high level)",
-      prompt:"Drag items into a sensible order for successful automation:",
-      items:["Automate / implement", "Monitor & improve", "Analyze AS-IS", "Design TO-BE"],
-      correctOrder:["Analyze AS-IS", "Design TO-BE", "Automate / implement", "Monitor & improve"],
-      explanation:"Start by understanding the current process, design the improved version, implement automation, then continuously improve."
-    },
-
-    { type:"content", title:"Summary", bullets:[
-      "RPA automates repetitive tasks; BPA orchestrates end-to-end processes.",
-      "Market growth and investment show strong demand for automation.",
-      "System analysis (AS-IS → TO-BE) reduces the risk of ‘automating chaos’."
-    ]},
-
-    { type:"quiz", title:"Final Check (one sentence)", prompt:"Which one-sentence summary is best?",
-      options:[
-        "RPA is mainly about AI decision-making and replaces process design.",
-        "RPA automates repetitive tasks; success improves when combined with AS-IS/TO-BE analysis and good process design.",
-        "RPA is the same as BPA and always requires building new systems.",
-        "RPA only works for paper-based processes without software."
-      ],
-      answerIndex: 1,
-      explanation: "This captures the core: task automation + process thinking leads to better outcomes."
-    },
-  ]
-};
-
-/** ---------------------------------------------------------
- *  Runtime state
- *  --------------------------------------------------------- */
-const stateKey = "processAutomationLecture2_state_v1";
-let state = loadState() || { idx:0, quiz:{}, order:{}, startedAt:new Date().toISOString() };
-
-const $ = (sel) => document.querySelector(sel);
-function saveState(){ localStorage.setItem(stateKey, JSON.stringify(state)); }
-function loadState(){ try { return JSON.parse(localStorage.getItem(stateKey)); } catch { return null; } }
-function resetState(){
-  localStorage.removeItem(stateKey);
-  state = { idx:0, quiz:{}, order:{}, startedAt:new Date().toISOString() };
-  render();
+function toggleSection() {
+    const section = document.getElementById("uipathSection");
+    section.classList.toggle("hidden");
 }
-
-/** ---------------------------------------------------------
- *  Rendering
- *  --------------------------------------------------------- */
-function render(){
-  $("#courseTitle").textContent = lessonData.courseTitle;
-  $("#courseSub").textContent = lessonData.courseSub;
-
-  const goalsEl = $("#goals");
-  goalsEl.innerHTML = "";
-  for(const g of lessonData.learningGoals){
-    const li = document.createElement("li");
-    li.textContent = g;
-    goalsEl.appendChild(li);
-  }
-
-  const slides = lessonData.slides;
-  state.idx = Math.max(0, Math.min(state.idx, slides.length - 1));
-
-  $("#slideCounter").textContent = `${state.idx + 1} / ${slides.length}`;
-  $("#progressFill").style.width = `${((state.idx + 1) / slides.length) * 100}%`;
-
-  $("#btnPrev").disabled = state.idx === 0;
-  $("#btnNext").disabled = state.idx === slides.length - 1;
-
-  const slide = slides[state.idx];
-  const slideEl = $("#slide");
-  slideEl.innerHTML = "";
-
-  const h = document.createElement("h1");
-  h.className = "h1";
-  h.textContent = slide.title;
-  slideEl.appendChild(h);
-
-  if(slide.type === "content"){
-    if(slide.note){
-      const note = document.createElement("div");
-      note.className = "note";
-      note.textContent = slide.note;
-      slideEl.appendChild(note);
-    }
-
-    const ul = document.createElement("ul");
-    (slide.bullets || []).forEach(b => {
-      const li = document.createElement("li");
-      li.textContent = b;
-      ul.appendChild(li);
-    });
-    slideEl.appendChild(ul);
-
-    if(slide.extraHTML){
-      const extra = document.createElement("div");
-      extra.innerHTML = slide.extraHTML;
-      slideEl.appendChild(extra);
-    }
-
-    $("#statusLine").textContent = "Use ← → or buttons to navigate.";
-  }
-
-  if(slide.type === "quiz") renderQuiz(slideEl, slide);
-  if(slide.type === "order") renderOrder(slideEl, slide);
-
-  saveState();
-}
-
-function renderQuiz(slideEl, slide){
-  const p = document.createElement("p");
-  p.className = "note";
-  p.textContent = slide.prompt;
-  slideEl.appendChild(p);
-
-  const saved = state.quiz[state.idx] || {};
-  const form = document.createElement("div");
-
-  slide.options.forEach((opt, i) => {
-    const row = document.createElement("label");
-    row.className = "quizOpt";
-
-    const input = document.createElement("input");
-    input.type = "radio";
-    input.name = "quiz";
-    input.value = i;
-    input.checked = (saved.selectedIndex === i);
-
-    const span = document.createElement("div");
-    span.textContent = opt;
-
-    row.appendChild(input);
-    row.appendChild(span);
-    form.appendChild(row);
-
-    input.addEventListener("change", () => {
-      state.quiz[state.idx] = { selectedIndex:i, correct:(i === slide.answerIndex) };
-      render();
-    });
-  });
-
-  slideEl.appendChild(form);
-
-  if(saved.selectedIndex !== undefined){
-    const fb = document.createElement("div");
-    fb.className = "feedback " + (saved.correct ? "good" : "bad");
-    fb.innerHTML = saved.correct ? `✅ Correct. ${slide.explanation}` : `❌ Not quite. ${slide.explanation}`;
-    slideEl.appendChild(fb);
-    $("#statusLine").textContent = saved.correct ? "Quiz: correct ✅" : "Quiz: try again ❌";
-  } else {
-    $("#statusLine").textContent = "Quiz: pick an answer.";
-  }
-}
-
-function renderOrder(slideEl, slide){
-  const p = document.createElement("p");
-  p.className = "note";
-  p.textContent = slide.prompt;
-  slideEl.appendChild(p);
-
-  const saved = state.order[state.idx];
-  const current = saved?.currentOrder?.slice() || slide.items.slice();
-
-  const list = document.createElement("div");
-  list.id = "dragList";
-
-  current.forEach(text => {
-    const item = document.createElement("div");
-    item.className = "dragItem";
-    item.textContent = text;
-    list.appendChild(item);
-  });
-
-  enableDragSort(list);
-
-  const btnRow = document.createElement("div");
-  btnRow.className = "btns";
-  const checkBtn = document.createElement("button");
-  checkBtn.className = "good";
-  checkBtn.textContent = "Check order";
-  const resetBtn = document.createElement("button");
-  resetBtn.textContent = "Reset";
-  btnRow.appendChild(checkBtn);
-  btnRow.appendChild(resetBtn);
-
-  slideEl.appendChild(list);
-  slideEl.appendChild(btnRow);
-
-  const feedback = document.createElement("div");
-  slideEl.appendChild(feedback);
-
-  function getOrder(){ return [...list.querySelectorAll(".dragItem")].map(x => x.textContent); }
-
-  checkBtn.addEventListener("click", () => {
-    const now = getOrder();
-    const correct = arraysEqual(now, slide.correctOrder);
-    state.order[state.idx] = { currentOrder: now, correct };
-    feedback.className = "feedback " + (correct ? "good" : "bad");
-    feedback.innerHTML = correct
-      ? `✅ Correct order. ${slide.explanation}`
-      : `❌ Not yet. Hint: start with AS-IS, then TO-BE.`;
-    $("#statusLine").textContent = correct ? "Activity: correct ✅" : "Activity: keep trying ❌";
-    saveState();
-  });
-
-  resetBtn.addEventListener("click", () => {
-    state.order[state.idx] = { currentOrder: slide.items.slice(), correct: false };
-    render();
-  });
-
-  if(saved?.correct){
-    feedback.className = "feedback good";
-    feedback.innerHTML = `✅ Completed. ${slide.explanation}`;
-    $("#statusLine").textContent = "Activity: completed ✅";
-  } else {
-    $("#statusLine").textContent = "Activity: drag items then check.";
-  }
-}
-
-/** ---------------------------------------------------------
- *  Drag-sort (Pointer Events) — mobile friendly
- *  --------------------------------------------------------- */
-function enableDragSort(container){
-  if (container.dataset.dragSortBound === "1") return;
-  container.dataset.dragSortBound = "1";
-
-  let original = null;
-  let ghost = null;
-  let offsetY = 0;
-
-  container.style.touchAction = "none";
-
-  function listItems(){ return [...container.querySelectorAll(".dragItem")]; }
-
-  function onPointerDown(e){
-    const target = e.target.closest(".dragItem");
-    if(!target) return;
-
-    e.preventDefault();
-
-    original = target;
-
-    const rect = original.getBoundingClientRect();
-    offsetY = e.clientY - rect.top;
-
-    ghost = original.cloneNode(true);
-    ghost.classList.add("dragGhost");
-    ghost.style.left = rect.left + "px";
-    ghost.style.top  = rect.top + "px";
-    ghost.style.width = rect.width + "px";
-    document.body.appendChild(ghost);
-
-    original.style.visibility = "hidden";
-    moveGhost(e.clientY);
-  }
-
-  function moveGhost(clientY){
-    if(!ghost) return;
-    ghost.style.top = (clientY - offsetY) + "px";
-
-    const ghostRect = ghost.getBoundingClientRect();
-    const ghostMidY = ghostRect.top + ghostRect.height / 2;
-
-    let best = null;
-    let bestDist = Infinity;
-
-    for(const el of listItems()){
-      if(el === original) continue;
-      const r = el.getBoundingClientRect();
-      const mid = r.top + r.height / 2;
-      const d = Math.abs(mid - ghostMidY);
-      if(d < bestDist){
-        bestDist = d;
-        best = { el, mid };
-      }
-    }
-
-    if(best){
-      const insertAfter = ghostMidY > best.mid;
-      if(insertAfter){
-        if(best.el.nextSibling !== original){
-          container.insertBefore(original, best.el.nextSibling);
-        }
-      } else {
-        if(best.el !== original.nextSibling){
-          container.insertBefore(original, best.el);
-        }
-      }
-    }
-  }
-
-  function cleanup(){
-    if(!original) return;
-    original.style.visibility = "";
-    if(ghost){ ghost.remove(); ghost = null; }
-    original = null;
-  }
-
-  function onPointerMove(e){
-    if(!original || !ghost) return;
-    e.preventDefault();
-    moveGhost(e.clientY);
-  }
-
-  function onPointerUp(e){
-    if(!original) return;
-    e.preventDefault();
-    cleanup();
-  }
-
-  container.addEventListener("pointerdown", onPointerDown);
-  window.addEventListener("pointermove", onPointerMove, { passive:false });
-  window.addEventListener("pointerup", onPointerUp, { passive:false });
-  window.addEventListener("pointercancel", onPointerUp, { passive:false });
-}
-
-function arraysEqual(a,b){
-  if(a.length !== b.length) return false;
-  for(let i=0;i<a.length;i++) if(a[i] !== b[i]) return false;
-  return true;
-}
-
-/** ---------------------------------------------------------
- *  Navigation + Hotkeys
- *  --------------------------------------------------------- */
-function next(){ if(state.idx < lessonData.slides.length - 1){ state.idx++; render(); } }
-function prev(){ if(state.idx > 0){ state.idx--; render(); } }
-
-document.querySelector("#btnNext").addEventListener("click", next);
-document.querySelector("#btnPrev").addEventListener("click", prev);
-document.querySelector("#btnReset").addEventListener("click", resetState);
-
-document.querySelector("#btnExport").addEventListener("click", () => {
-  const exportObj = {
-    course: lessonData.courseTitle,
-    startedAt: state.startedAt,
-    currentSlide: state.idx + 1,
-    quiz: state.quiz,
-    order: state.order
-  };
-  const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type:"application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "lecture2_progress.json";
-  a.click();
-  URL.revokeObjectURL(a.href);
-  document.querySelector("#statusLine").textContent = "Exported progress JSON.";
-});
-
-document.addEventListener("keydown", (e) => {
-  if(e.key === "ArrowRight") next();
-  if(e.key === "ArrowLeft") prev();
-});
-
-/** ---------------------------------------------------------
- *  Start
- *  --------------------------------------------------------- */
-render();
 </script>
+
 </body>
 </html>
