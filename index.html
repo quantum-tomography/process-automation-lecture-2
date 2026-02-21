@@ -124,6 +124,9 @@
       <section class="card cardPad" id="slide"></section>
 
       <aside class="card cardPad">
+        <div class="h2">Learning outcomes</div>
+        <ul id="goals"></ul>
+
         <div class="h2">Quick actions</div>
         <div class="btns">
           <button id="btnExport" class="primary">Export progress JSON</button>
@@ -152,11 +155,17 @@
 
 <script>
 /** ---------------------------------------------------------
- *  Single-slide lecture (keep layout, keep content, keep expand)
+ *  Single-slide lecture (keep layout + learning outcomes)
  *  --------------------------------------------------------- */
 const lessonData = {
   courseTitle: "Process Automation – Interactive Lecture 2",
   courseSub: "RPA Foundations",
+  learningOutcomes: [
+    "Explain what RPA is and what it can do",
+    "Recognize why RPA gained strong market interest (investment, growth)",
+    "Differentiate RPA (task automation) from BPA (end-to-end orchestration) at a high level",
+    "Summarize why this matters for digital transformation"
+  ],
   slides: [
     {
       type:"content",
@@ -182,7 +191,7 @@ const lessonData = {
         </div>
 
         <button class="toggleBtn" id="toggleUiPath" type="button">
-          <span>Rapid Growth of UiPath</span>
+          <span>Rapid Growth of UiPath (click to expand)</span>
           <span id="toggleIcon">▸</span>
         </button>
 
@@ -210,7 +219,7 @@ const lessonData = {
   ]
 };
 
-const stateKey = "processAutomationLecture2_singleSlide_v1";
+const stateKey = "processAutomationLecture2_singleSlide_v2";
 let state = loadState() || { idx:0, startedAt:new Date().toISOString(), expanded:false };
 
 const $ = (sel) => document.querySelector(sel);
@@ -221,6 +230,14 @@ function resetState(){ localStorage.removeItem(stateKey); state = { idx:0, start
 function render(){
   $("#courseTitle").textContent = lessonData.courseTitle;
   $("#courseSub").textContent = lessonData.courseSub;
+
+  const goalsEl = $("#goals");
+  goalsEl.innerHTML = "";
+  for(const g of lessonData.learningOutcomes){
+    const li = document.createElement("li");
+    li.textContent = g;
+    goalsEl.appendChild(li);
+  }
 
   const slides = lessonData.slides;
   $("#slideCounter").textContent = `1 / ${slides.length}`;
@@ -239,7 +256,7 @@ function render(){
   content.innerHTML = slide.html;
   slideEl.appendChild(content);
 
-  // Hook up expand/collapse
+  // Expand/collapse
   const btn = $("#toggleUiPath");
   const panel = $("#uipathSection");
   const icon = $("#toggleIcon");
@@ -263,13 +280,14 @@ function render(){
   saveState();
 }
 
-// Buttons (kept for consistency with your layout)
+// Actions
 $("#btnReset").addEventListener("click", resetState);
 $("#btnExport").addEventListener("click", () => {
   const exportObj = {
     course: lessonData.courseTitle,
     startedAt: state.startedAt,
-    expanded: state.expanded
+    expanded: state.expanded,
+    learningOutcomes: lessonData.learningOutcomes
   };
   const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type:"application/json" });
   const a = document.createElement("a");
@@ -280,7 +298,7 @@ $("#btnExport").addEventListener("click", () => {
   $("#statusLine").textContent = "Exported progress JSON.";
 });
 
-// Hotkeys kept (they just won’t change slide yet)
+// Hotkeys kept (single slide)
 document.addEventListener("keydown", (e) => {
   if(e.key === "ArrowRight" || e.key === "ArrowLeft"){
     $("#statusLine").textContent = "Only one slide for now.";
