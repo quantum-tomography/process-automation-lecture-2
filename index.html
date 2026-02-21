@@ -54,37 +54,14 @@
     .footerNav .wrap{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
 
     /* ---- Book-like typography ---- */
-    .book{
-      max-width: 70ch;
-      margin: 0;
-    }
-    .book p{
-      color: var(--text);
-      line-height: 1.85;
-      margin: 10px 0;
-      font-size: 16px;
-    }
-    .book p.lead{
-      color: #d8e6ff;
-      font-size: 16px;
-    }
-    .book .small{
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 6px;
-    }
-    .book hr{
-      border: none;
-      border-top: 1px solid rgba(255,255,255,.10);
-      margin: 18px 0;
-    }
+    .book{ max-width: 70ch; margin: 0; }
+    .book p{ color: var(--text); line-height: 1.85; margin: 10px 0; font-size: 16px; }
+    .book p.lead{ color: #d8e6ff; font-size: 16px; }
+    .book .small{ color: var(--muted); font-size: 13px; margin-top: 6px; }
+    .book hr{ border: none; border-top: 1px solid rgba(255,255,255,.10); margin: 18px 0; }
     .book .dropcap:first-letter{
-      float:left;
-      font-size: 42px;
-      line-height: 38px;
-      padding: 6px 8px 0 0;
-      color: #d8e6ff;
-      font-weight: 800;
+      float:left; font-size: 42px; line-height: 38px; padding: 6px 8px 0 0;
+      color: #d8e6ff; font-weight: 800;
     }
 
     .quote{
@@ -94,59 +71,32 @@
       background:rgba(77,163,255,.08);
       border-radius:14px;
       color:#d9ecff;
+      white-space: pre-wrap;
     }
 
     /* Reveal blocks */
     .toggleBtn{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      width:100%;
-      text-align:left;
-      margin-top:14px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.04);
-      cursor:pointer;
-      color:#d8e6ff;
-      font-weight:700;
+      display:flex; align-items:center; justify-content:space-between;
+      width:100%; text-align:left; margin-top:14px; padding:10px 12px;
+      border-radius:14px; border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04); cursor:pointer; color:#d8e6ff; font-weight:700;
     }
     .toggleBtn:hover{ background:rgba(255,255,255,.07); }
     .panel{
-      margin-top:10px;
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.03);
+      margin-top:10px; padding:12px 12px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.03);
     }
     .hidden{ display:none; }
 
-    .kpiGrid{
-      display:grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap:10px;
-      margin-top:10px;
-    }
-    .kpi{
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.04);
-      border-radius:14px;
-      padding:12px;
-    }
+    .kpiGrid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:10px; margin-top:10px; }
+    .kpi{ border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.04); border-radius:14px; padding:12px; }
     .kpi strong{ display:block; font-size:13px; color:#d8e6ff; }
     .kpi span{ display:block; margin-top:6px; color:var(--text); }
 
-    /* Small inline marker style */
     .marker{
-      display:inline-block;
-      padding:2px 8px;
-      border-radius:999px;
-      border:1px solid rgba(77,163,255,.35);
-      background:rgba(77,163,255,.10);
-      color:#cfe7ff;
-      font-size:12px;
-      transform: translateY(-1px);
+      display:inline-block; padding:2px 8px; border-radius:999px;
+      border:1px solid rgba(77,163,255,.35); background:rgba(77,163,255,.10);
+      color:#cfe7ff; font-size:12px; transform: translateY(-1px);
     }
   </style>
 </head>
@@ -157,10 +107,10 @@
     <div class="row">
       <div>
         <div class="title" id="courseTitle">Process Automation – Lecture 2</div>
-        <div class="sub" id="courseSub">RPA Foundations (single slide for now)</div>
+        <div class="sub" id="courseSub">RPA Foundations</div>
       </div>
       <div class="pill">
-        <span id="slideCounter">1 / 1</span>
+        <span id="slideCounter">1 / 2</span>
         <span>•</span>
         <span>Keys:</span> <span class="kbd">←</span> <span class="kbd">→</span>
       </div>
@@ -186,8 +136,8 @@
 
         <div class="h2">How to use</div>
         <div class="note">
-          Read the text like a short book page.<br>
-          Use the <span class="marker">Reveal</span> buttons to unfold details (investment figures, UiPath growth, etc.).
+          Read the slides like short book pages.<br>
+          Use <span class="marker">Reveal</span> buttons to unfold details.
         </div>
       </aside>
     </div>
@@ -197,16 +147,16 @@
 <div class="footerNav">
   <div class="wrap">
     <div class="btns">
-      <button id="btnPrev" disabled>← Prev</button>
-      <button id="btnNext" class="primary" disabled>Next →</button>
+      <button id="btnPrev">← Prev</button>
+      <button id="btnNext" class="primary">Next →</button>
     </div>
-    <div class="sub" id="statusLine">Single slide • Reveal sections to continue reading</div>
+    <div class="sub" id="statusLine"></div>
   </div>
 </div>
 
 <script>
 /** ---------------------------------------------------------
- *  Single-slide lecture (book-like reading + reveal sections)
+ *  Two-slide lecture (book-like + reveal sections)
  *  --------------------------------------------------------- */
 const lessonData = {
   courseTitle: "Process Automation – Interactive Lecture 2",
@@ -252,12 +202,12 @@ const lessonData = {
             </ul>
 
             <div class="quote">
-              “RPA is becoming a bigger focus for our customers, which is why it’s important
-              for us to partner closely with Automation Anywhere, a market leader.”
+“RPA is becoming a bigger focus for our customers, which is why it’s important for
+us to partner closely with Automation Anywhere, a market leader.”
             </div>
 
             <p class="small">
-              Interpretation for students: big rounds + strategic investors are a “market signal” that automation became a priority.
+              Interpretation: big rounds + strategic investors are a “market signal” that automation became a priority.
             </p>
           </div>
 
@@ -281,12 +231,12 @@ const lessonData = {
 
             <div class="kpiGrid">
               <div class="kpi"><strong>Valuation</strong><span>$110 million → $7 billion</span></div>
-              <div class="kpi"><strong>Annual Recurring Revenue</strong><span>$8 million → $200 million</span></div>
+              <div class="kpi"><strong>Annual recurring revenue</strong><span>$8 million → $200 million</span></div>
               <div class="kpi"><strong>Employees</strong><span>16× growth to 2,500 employees</span></div>
             </div>
 
             <p class="small">
-              Interpretation for students: scaling this fast usually means many organizations were actively adopting the solution.
+              Interpretation: scaling this fast usually means many organizations were actively adopting the solution.
             </p>
           </div>
 
@@ -312,15 +262,100 @@ const lessonData = {
           </div>
         </div>
       `
+    },
+
+    /* ---------------------- NEW SLIDE 2 (rewritten, quote kept verbatim) ---------------------- */
+    {
+      type:"content",
+      title:"A leadership perspective",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            Industry leaders often describe RPA as a turning point: not a small productivity trick, but a shift in how work is
+            distributed between people and software. In this view, software robots do the predictable parts of work,
+            while humans keep ownership of judgment, exceptions, and higher-impact decisions.
+          </p>
+
+          <button class="toggleBtn" id="toggleDines" type="button">
+            <span>Reveal: UiPath CEO Daniel Dines (quote)</span>
+            <span id="iconDines">▸</span>
+          </button>
+
+          <div id="panelDines" class="panel hidden">
+            <div class="quote">
+“The CEO and cofounder of UiPath, Daniel Dines, said: “We are
+at the tipping point. Business leaders everywhere are augmenting
+their workforces with software robots, rapidly accelerating the digital
+transformation of their entire business and freeing employees to spend
+time on more impactful work. UiPath is leading this workforce revolution,
+driven by our core determination to democratize RPA and deliver on our
+vision of a robot helping every person. I am humbled by the amazing
+support our customers, partners and investors give us every day, inspiring
+us to work harder to evolve RPA as the platform that not only unlocks the
+true potential of AI, but also other emerging technologies. We are just
+getting started.”3”
+            </div>
+          </div>
+
+          <hr>
+
+          <p>
+            If this description sounds ambitious, that is exactly the point. RPA vendors position the technology as a practical
+            way to scale operations without constantly adding headcount. When customer demand is strong, the ecosystem expands:
+            implementation partners, training programs, marketplaces for automation components, and governance practices.
+          </p>
+
+          <button class="toggleBtn" id="toggleDrivers" type="button">
+            <span>Reveal: Why so much interest? (key drivers)</span>
+            <span id="iconDrivers">▸</span>
+          </button>
+
+          <div id="panelDrivers" class="panel hidden">
+            <ul>
+              <li><strong>Efficiency pressure:</strong> routine work is expensive when done manually at scale.</li>
+              <li><strong>System reality:</strong> organizations have many legacy systems that don’t integrate smoothly.</li>
+              <li><strong>Speed to value:</strong> RPA can often be deployed faster than full IT modernization.</li>
+              <li><strong>Workforce focus:</strong> freeing people from repetitive tasks can raise quality and morale.</li>
+            </ul>
+          </div>
+
+          <hr>
+
+          <p>
+            This lecture will use that industry excitement as a starting point—not as proof, but as context.
+            Next, we will answer three practical questions: what RPA actually is (in technical terms),
+            what it is not, and which core elements determine whether an automation initiative succeeds or fails.
+          </p>
+
+          <button class="toggleBtn" id="toggleNext" type="button">
+            <span>Reveal: What we will cover next</span>
+            <span id="iconNext">▸</span>
+          </button>
+
+          <div id="panelNext" class="panel hidden">
+            <ul>
+              <li>A precise definition of RPA (task scope, rule-based behavior, typical architecture)</li>
+              <li>Key drivers and use cases (where it helps most, where it fails)</li>
+              <li>Core elements: process selection, governance, exceptions, monitoring, and continuous improvement</li>
+            </ul>
+            <p class="small">We’ll add these sections as new slides later.</p>
+          </div>
+        </div>
+      `
     }
   ]
 };
 
-const stateKey = "processAutomationLecture2_book_v1";
+const stateKey = "processAutomationLecture2_book_v2";
 let state = loadState() || {
   idx:0,
   startedAt:new Date().toISOString(),
-  expanded: { invest:false, uipath:false, why:false }
+  expanded: {
+    // slide 1
+    invest:false, uipath:false, why:false,
+    // slide 2
+    dines:false, drivers:false, next:false
+  }
 };
 
 const $ = (sel) => document.querySelector(sel);
@@ -328,7 +363,11 @@ function saveState(){ localStorage.setItem(stateKey, JSON.stringify(state)); }
 function loadState(){ try { return JSON.parse(localStorage.getItem(stateKey)); } catch { return null; } }
 function resetState(){
   localStorage.removeItem(stateKey);
-  state = { idx:0, startedAt:new Date().toISOString(), expanded:{ invest:false, uipath:false, why:false } };
+  state = {
+    idx:0,
+    startedAt:new Date().toISOString(),
+    expanded: { invest:false, uipath:false, why:false, dines:false, drivers:false, next:false }
+  };
   render();
 }
 
@@ -344,31 +383,41 @@ function render(){
     goalsEl.appendChild(li);
   }
 
-  $("#slideCounter").textContent = `1 / 1`;
-  $("#progressFill").style.width = `100%`;
+  const slides = lessonData.slides;
+  state.idx = Math.max(0, Math.min(state.idx, slides.length - 1));
 
+  $("#slideCounter").textContent = `${state.idx + 1} / ${slides.length}`;
+  $("#progressFill").style.width = `${((state.idx + 1) / slides.length) * 100}%`;
+
+  $("#btnPrev").disabled = (state.idx === 0);
+  $("#btnNext").disabled = (state.idx === slides.length - 1);
+
+  const slide = slides[state.idx];
   const slideEl = $("#slide");
   slideEl.innerHTML = "";
 
   const h = document.createElement("h1");
   h.className = "h1";
-  h.textContent = lessonData.slides[0].title;
+  h.textContent = slide.title;
   slideEl.appendChild(h);
 
   const content = document.createElement("div");
-  content.innerHTML = lessonData.slides[0].html;
+  content.innerHTML = slide.html;
   slideEl.appendChild(content);
 
-  // Bind reveals
-  bindReveal("toggleInvest", "panelInvest", "iconInvest", "invest");
-  bindReveal("toggleUiPath", "panelUiPath", "iconUiPath", "uipath");
-  bindReveal("toggleWhy", "panelWhy", "iconWhy", "why");
+  // Bind reveals based on current slide
+  if(state.idx === 0){
+    bindReveal("toggleInvest", "panelInvest", "iconInvest", "invest");
+    bindReveal("toggleUiPath", "panelUiPath", "iconUiPath", "uipath");
+    bindReveal("toggleWhy", "panelWhy", "iconWhy", "why");
+  } else if(state.idx === 1){
+    bindReveal("toggleDines", "panelDines", "iconDines", "dines");
+    bindReveal("toggleDrivers", "panelDrivers", "iconDrivers", "drivers");
+    bindReveal("toggleNext", "panelNext", "iconNext", "next");
+  }
 
-  // Status line
   const openCount = Object.values(state.expanded).filter(Boolean).length;
-  $("#statusLine").textContent = openCount === 0
-    ? "Single slide • Reveal sections to continue reading"
-    : `Revealed sections: ${openCount}/3`;
+  $("#statusLine").textContent = `Slide ${state.idx + 1}/${slides.length} • Revealed blocks total: ${openCount}`;
 
   saveState();
 }
@@ -377,6 +426,7 @@ function bindReveal(btnId, panelId, iconId, key){
   const btn = document.getElementById(btnId);
   const panel = document.getElementById(panelId);
   const icon = document.getElementById(iconId);
+  if(!btn || !panel || !icon) return;
 
   const isOpen = !!state.expanded[key];
   panel.classList.toggle("hidden", !isOpen);
@@ -389,12 +439,20 @@ function bindReveal(btnId, panelId, iconId, key){
   });
 }
 
+// Navigation
+function nextSlide(){ if(state.idx < lessonData.slides.length - 1){ state.idx++; render(); } }
+function prevSlide(){ if(state.idx > 0){ state.idx--; render(); } }
+
+document.getElementById("btnNext").addEventListener("click", nextSlide);
+document.getElementById("btnPrev").addEventListener("click", prevSlide);
+
 // Actions
 document.getElementById("btnReset").addEventListener("click", resetState);
 document.getElementById("btnExport").addEventListener("click", () => {
   const exportObj = {
     course: lessonData.courseTitle,
     startedAt: state.startedAt,
+    currentSlide: state.idx + 1,
     expanded: state.expanded,
     learningOutcomes: lessonData.learningOutcomes
   };
@@ -407,11 +465,10 @@ document.getElementById("btnExport").addEventListener("click", () => {
   document.getElementById("statusLine").textContent = "Exported progress JSON.";
 });
 
-// Hotkeys kept (single slide)
+// Hotkeys
 document.addEventListener("keydown", (e) => {
-  if(e.key === "ArrowRight" || e.key === "ArrowLeft"){
-    document.getElementById("statusLine").textContent = "Only one slide for now.";
-  }
+  if(e.key === "ArrowRight") nextSlide();
+  if(e.key === "ArrowLeft") prevSlide();
 });
 
 render();
