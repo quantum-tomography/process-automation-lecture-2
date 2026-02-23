@@ -3,34 +3,111 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Process Automation – Lecture 2</title>
-
+  <title>Process Automation – Lecture 2 (RPA Foundations)</title>
   <style>
-    :root { --bg:#0b1220; --card:#111a2e; --text:#e7eefc; --muted:#a8b3cf; --accent:#4da3ff; --good:#3ddc97; --bad:#ff5c7a; }
+    :root{
+      --bg:#0b1220; --card:#111a2e; --text:#e7eefc; --muted:#a8b3cf; --accent:#4da3ff;
+      --good:#3ddc97; --bad:#ff5c7a; --paper: rgba(255,255,255,.04);
+      --border: rgba(255,255,255,.10);
+    }
     *{ box-sizing:border-box; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
     body{ margin:0; background:linear-gradient(160deg,#081022,#0b1220); color:var(--text); }
     header{ position:sticky; top:0; backdrop-filter: blur(10px); background:rgba(11,18,32,.7); border-bottom:1px solid rgba(255,255,255,.08); z-index:10; }
-    .wrap{ max-width:1000px; margin:0 auto; padding:18px 18px; }
+    .wrap{ max-width:1050px; margin:0 auto; padding:18px 18px; }
     .row{ display:flex; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
     .title{ font-weight:700; letter-spacing:.2px; }
     .sub{ color:var(--muted); font-size:14px; }
     .bar{ height:10px; background:rgba(255,255,255,.08); border-radius:999px; overflow:hidden; }
     .bar > div{ height:100%; width:0%; background:linear-gradient(90deg,var(--accent),#7cc6ff); transition:width .25s ease; }
-    main{ padding:20px 0 60px; }
+    main{ padding:20px 0 70px; }
     .card{ background:rgba(17,26,46,.85); border:1px solid rgba(255,255,255,.08); border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,.35); }
     .cardPad{ padding:18px; }
-
-    .grid{ display:grid; grid-template-columns: 1fr; gap:14px; }
-    @media(min-width: 900px){ .grid{ grid-template-columns: 2fr 1fr; } }
-
     .h1{ font-size:26px; margin:0 0 10px; }
     .h2{ font-size:18px; margin:18px 0 10px; color:#d8e6ff; }
+    .grid{ display:grid; grid-template-columns: 1fr; gap:14px; }
+    @media(min-width: 920px){ .grid{ grid-template-columns: 2.2fr 1fr; } }
 
-    ul{ margin:10px 0 0 18px; color:var(--text); }
-    li{ margin:6px 0; }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px;
+      background:rgba(77,163,255,.12); border:1px solid rgba(77,163,255,.35); color:#cfe7ff; font-size:12px; }
+    .kbd{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; padding:2px 6px; border-radius:8px;
+      border:1px solid rgba(255,255,255,.15); background:rgba(0,0,0,.18); }
 
-    .pill{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:rgba(77,163,255,.12); border:1px solid rgba(77,163,255,.35); color:#cfe7ff; font-size:12px; }
+    /* “Book-like” reading */
+    .reading{
+      background: var(--paper);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .reading p{
+      margin: 10px 0;
+      color: rgba(231,238,252,.92);
+      line-height: 1.72;
+      font-size: 16px;
+    }
+    .reading p.small{ font-size: 14px; color: var(--muted); }
+    .reading p.lead{ font-size: 16.5px; color: rgba(231,238,252,.96); }
+    .reading ul{ margin: 10px 0 0 18px; }
+    .reading li{ margin: 6px 0; color: rgba(231,238,252,.92); line-height: 1.6; }
+    .divider{
+      height:1px; background:rgba(255,255,255,.10); margin:14px 0;
+    }
+    .quote{
+      margin: 12px 0;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(77,163,255,.35);
+      background: rgba(77,163,255,.10);
+      color: #e9f2ff;
+      line-height: 1.65;
+    }
+    .quote .qmark{ color:#bfe0ff; margin-right:6px; }
+    .quote .attrib{ margin-top:8px; font-size: 13px; color: rgba(231,238,252,.75); }
+    .reveal{
+      margin: 12px 0;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      overflow:hidden;
+    }
+    .revealHeader{
+      display:flex; gap:10px; align-items:center; justify-content:space-between;
+      padding: 12px 14px;
+      cursor:pointer;
+      user-select:none;
+    }
+    .revealHeader:hover{ background: rgba(255,255,255,.03); }
+    .revealTitle{
+      font-weight: 650;
+      color: #d8e6ff;
+      letter-spacing:.15px;
+    }
+    .revealHint{ font-size: 12px; color: rgba(168,179,207,.95); }
+    .chev{
+      width: 28px; height: 28px; border-radius: 10px;
+      display:flex; align-items:center; justify-content:center;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.15);
+      color: rgba(231,238,252,.9);
+      flex: 0 0 auto;
+    }
+    .revealBody{ display:none; padding: 0 14px 14px; }
+    .reveal.open .revealBody{ display:block; }
+    .reveal.open .chev{ transform: rotate(180deg); }
 
+    /* Quiz */
+    .note{ color:var(--muted); font-size:14px; line-height:1.6; }
+    .quizOpt{
+      display:flex; gap:10px; align-items:flex-start; padding:10px 12px;
+      border-radius:14px; border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04); margin:10px 0;
+    }
+    .quizOpt input{ margin-top:3px; }
+    .feedback{ margin-top:10px; padding:10px 12px; border-radius:14px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.03); }
+    .feedback.good{ border-color: rgba(61,220,151,.55); background:rgba(61,220,151,.10); }
+    .feedback.bad{ border-color: rgba(255,92,122,.55); background:rgba(255,92,122,.08); }
+
+    /* Buttons */
     .btns{ display:flex; gap:10px; flex-wrap:wrap; }
     button{
       border:1px solid rgba(255,255,255,.12);
@@ -47,57 +124,8 @@
     button.primary:hover{ background:rgba(77,163,255,.28); }
     button.bad{ background:rgba(255,92,122,.16); border-color:rgba(255,92,122,.45); }
 
-    .note{ color:var(--muted); font-size:14px; line-height:1.6; }
-    .kbd{ font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; padding:2px 6px; border-radius:8px; border:1px solid rgba(255,255,255,.15); background:rgba(0,0,0,.18); }
-
     .footerNav{ position:fixed; bottom:0; left:0; right:0; background:rgba(11,18,32,.75); border-top:1px solid rgba(255,255,255,.08); backdrop-filter: blur(10px); }
     .footerNav .wrap{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
-
-    /* ---- Book-like typography ---- */
-    .book{ max-width: 70ch; margin: 0; }
-    .book p{ color: var(--text); line-height: 1.85; margin: 10px 0; font-size: 16px; }
-    .book p.lead{ color: #d8e6ff; font-size: 16px; }
-    .book .small{ color: var(--muted); font-size: 13px; margin-top: 6px; }
-    .book hr{ border: none; border-top: 1px solid rgba(255,255,255,.10); margin: 18px 0; }
-    .book .dropcap:first-letter{
-      float:left; font-size: 42px; line-height: 38px; padding: 6px 8px 0 0;
-      color: #d8e6ff; font-weight: 800;
-    }
-
-    .quote{
-      margin:12px 0;
-      padding:12px 14px;
-      border-left:4px solid rgba(77,163,255,.75);
-      background:rgba(77,163,255,.08);
-      border-radius:14px;
-      color:#d9ecff;
-      white-space: pre-wrap;
-    }
-
-    /* Reveal blocks */
-    .toggleBtn{
-      display:flex; align-items:center; justify-content:space-between;
-      width:100%; text-align:left; margin-top:14px; padding:10px 12px;
-      border-radius:14px; border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.04); cursor:pointer; color:#d8e6ff; font-weight:700;
-    }
-    .toggleBtn:hover{ background:rgba(255,255,255,.07); }
-    .panel{
-      margin-top:10px; padding:12px 12px; border-radius:14px;
-      border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.03);
-    }
-    .hidden{ display:none; }
-
-    .kpiGrid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:10px; margin-top:10px; }
-    .kpi{ border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.04); border-radius:14px; padding:12px; }
-    .kpi strong{ display:block; font-size:13px; color:#d8e6ff; }
-    .kpi span{ display:block; margin-top:6px; color:var(--text); }
-
-    .marker{
-      display:inline-block; padding:2px 8px; border-radius:999px;
-      border:1px solid rgba(77,163,255,.35); background:rgba(77,163,255,.10);
-      color:#cfe7ff; font-size:12px; transform: translateY(-1px);
-    }
   </style>
 </head>
 
@@ -106,11 +134,11 @@
   <div class="wrap">
     <div class="row">
       <div>
-        <div class="title" id="courseTitle">Process Automation – Lecture 2</div>
-        <div class="sub" id="courseSub">RPA Foundations</div>
+        <div class="title" id="courseTitle">Interactive Lecture</div>
+        <div class="sub" id="courseSub">Generated from lesson data</div>
       </div>
       <div class="pill">
-        <span id="slideCounter">1 / 2</span>
+        <span id="slideCounter">1 / 1</span>
         <span>•</span>
         <span>Keys:</span> <span class="kbd">←</span> <span class="kbd">→</span>
       </div>
@@ -130,14 +158,12 @@
 
         <div class="h2">Quick actions</div>
         <div class="btns">
-          <button id="btnExport" class="primary">Export progress JSON</button>
           <button id="btnReset" class="bad">Reset progress</button>
         </div>
 
-        <div class="h2">How to use</div>
+        <div class="h2">Instructor note</div>
         <div class="note">
-          Read the slides like short book pages.<br>
-          Use <span class="marker">Reveal</span> buttons to unfold details.
+          This page paraphrases book content for a public lecture site. Quotes are kept verbatim (as short excerpts).
         </div>
       </aside>
     </div>
@@ -156,254 +182,465 @@
 
 <script>
 /** ---------------------------------------------------------
- *  Two-slide lecture (book-like + reveal sections)
- *  Slide 2 updated with your new info (rewritten; quote kept verbatim)
+ *  Lesson data (Chapter 1: pages 2–25) — rewritten summaries + short quotes
+ *  Source: Tom Taulli, The Robotic Process Automation Handbook (Apress, 2020).
  *  --------------------------------------------------------- */
 const lessonData = {
-  courseTitle: "Process Automation – Interactive Lecture 2",
-  courseSub: "RPA Foundations",
-  learningOutcomes: [
-    "Explain what RPA is and what it can do",
-    "Recognize why RPA gained strong market interest (investment, growth)",
-    "Differentiate RPA (task automation) from BPA (end-to-end orchestration) at a high level",
-    "Summarize why this matters for digital transformation"
+  courseTitle: "Process Automation – Lecture 2",
+  courseSub: "RPA Foundations (book-based, rewritten for public website)",
+  learningGoals: [
+    "Explain what RPA is (and what it is not).",
+    "Distinguish attended, unattended, and intelligent process automation (IPA).",
+    "List major benefits and typical risks/limitations of RPA.",
+    "Compare RPA with BPM, BPO, and BPA at a high level."
   ],
   slides: [
     {
-      type:"content",
-      title:"RPA Foundations",
-      html: `
-        <div class="book">
-          <p class="lead dropcap">
-            Robotic Process Automation (RPA) has become one of the fastest-growing technologies in business automation.
-            Instead of changing core systems, RPA typically works at the surface level: it follows rules and executes
-            repetitive actions the same way a human user would—opening screens, copying data, clicking buttons, and
-            submitting forms.
-          </p>
+      type: "reading",
+      title: "RPA Foundations – Why everyone started paying attention",
+      blocks: [
+        { kind:"p", cls:"lead", text:
+          "Robotic Process Automation (RPA) moved from “niche IT trick” to boardroom topic when investors and large enterprises began treating automation as a strategic capability. One signal was the scale of funding and the speed at which RPA vendors grew." },
+        { kind:"divider" },
 
-          <p>
-            This practical ability—automating work without rebuilding IT—helps explain why RPA attracted intense market
-            interest. Investors and enterprise software vendors treated RPA not as a “nice-to-have” tool, but as a
-            capability that could reduce operational friction across many industries.
-          </p>
+        { kind:"p", text:
+          "From the market story: one major vendor received a large investment and also attracted strategic enterprise partners. Another vendor’s growth curve became a headline in the industry, because it looked less like a normal software company and more like a sudden platform wave." },
 
-          <button class="toggleBtn" id="toggleInvest" type="button">
-            <span>Reveal: Major investments in RPA</span>
-            <span id="iconInvest">▸</span>
-          </button>
+        { kind:"reveal", title:"Major investments (click to reveal)", hint:"Funding rounds & strategic interest",
+          blocks:[
+            { kind:"ul", items:[
+              "A large VC investment was announced for Automation Anywhere, with the full round reported as larger and including strategic participation (e.g., a major cloud ERP company).",
+              "UiPath later announced a very large funding round and drew “tier-one” investors—helping the company scale quickly."
+            ]},
+            { kind:"quote",
+              text:"“RPA is becoming a bigger focus for our customers, which is why it’s important for us to partner closely with Automation Anywhere, a market leader.”",
+              attrib:"Workday Ventures (quoted in the book)"
+            }
+          ]
+        },
 
-          <div id="panelInvest" class="panel hidden">
-            <p class="note" style="margin-top:0">
-              In 2018, Automation Anywhere announced a major funding round:
-            </p>
-            <ul>
-              <li><strong>$300 million</strong> investment by the SoftBank Vision Fund (2018)</li>
-              <li>Total funding round exceeded <strong>$500 million</strong></li>
-              <li>Strategic investor: <strong>Workday</strong>, a leading cloud-based ERP provider</li>
-            </ul>
+        { kind:"reveal", title:"UiPath growth snapshot (click to reveal)", hint:"Why it looked like an inflection point",
+          blocks:[
+            { kind:"ul", items:[
+              "Valuation: from a small start-up level to multi-billion within a short period.",
+              "Recurring revenue growth: from single-digit millions to hundreds of millions.",
+              "Headcount scale-up: rapid expansion to thousands of employees."
+            ] }
+          ]
+        },
 
-            <div class="quote">
-“RPA is becoming a bigger focus for our customers, which is why it’s important for
-us to partner closely with Automation Anywhere, a market leader.”
-            </div>
-
-            <p class="small">
-              Interpretation: big rounds + strategic investors are a “market signal” that automation became a priority.
-            </p>
-          </div>
-
-          <hr>
-
-          <p>
-            Funding alone does not prove a technology is useful in practice. But when it appears together with fast
-            adoption and rapid scaling, it usually indicates that organizations repeatedly see value: time saved,
-            fewer manual errors, and more consistent execution of routine work.
-          </p>
-
-          <button class="toggleBtn" id="toggleUiPath" type="button">
-            <span>Reveal: Rapid growth of UiPath</span>
-            <span id="iconUiPath">▸</span>
-          </button>
-
-          <div id="panelUiPath" class="panel hidden">
-            <p class="note" style="margin-top:0">
-              In April 2019, UiPath raised <strong>$568 million</strong> in a Series B funding round, backed by major global investors.
-            </p>
-
-            <div class="kpiGrid">
-              <div class="kpi"><strong>Valuation</strong><span>$110 million → $7 billion</span></div>
-              <div class="kpi"><strong>Annual recurring revenue</strong><span>$8 million → $200 million</span></div>
-              <div class="kpi"><strong>Employees</strong><span>16× growth to 2,500 employees</span></div>
-            </div>
-
-            <p class="small">
-              Interpretation: scaling this fast usually means many organizations were actively adopting the solution.
-            </p>
-          </div>
-
-          <hr>
-
-          <p>
-            Why does this matter for process automation? Because RPA is rarely the final goal. It is often one tool in
-            a larger strategy. If we automate a broken process, we simply make the broken behavior happen faster.
-            That is why process thinking (AS-IS → TO-BE) is still essential.
-          </p>
-
-          <button class="toggleBtn" id="toggleWhy" type="button">
-            <span>Reveal: Why this matters (3 key points)</span>
-            <span id="iconWhy">▸</span>
-          </button>
-
-          <div id="panelWhy" class="panel hidden">
-            <ul>
-              <li>RPA is viewed as a transformative enterprise technology.</li>
-              <li>Large corporations treat automation as a strategic capability.</li>
-              <li>Demand for end-to-end process automation continues to grow rapidly.</li>
-            </ul>
-          </div>
-        </div>
-      `
+        { kind:"p", cls:"small", text:
+          "Navigation tip: use the arrows below (or ← / → keys). Your quiz progress is saved in this browser." }
+      ]
     },
 
-    /* ---------------------- SLIDE 2 UPDATED ---------------------- */
     {
-      type:"content",
-      title:"Signals of adoption and momentum",
-      html: `
-        <div class="book">
-          <p class="lead dropcap">
-            Another reason the RPA market felt “hot” was the clear sign of momentum inside the leading platforms.
-            UiPath, for example, continued to push frequent platform updates while expanding its enterprise offering.
-            At the same time, it began collecting a list of high-visibility customers—exactly the kind of adoption that
-            convinces other organizations that a technology is becoming mainstream.
-          </p>
+      type: "reading",
+      title: "A “tipping point” narrative: what leaders were claiming",
+      blocks: [
+        { kind:"p", cls:"lead", text:
+          "Industry leaders framed RPA as more than cost-cutting: they described it as a new kind of workforce model, where software robots take over routine digital work so people can shift to higher-value tasks." },
 
-          <button class="toggleBtn" id="toggleMomentum" type="button">
-            <span>Reveal: Product releases and enterprise customers</span>
-            <span id="iconMomentum">▸</span>
-          </button>
+        { kind:"quote",
+          text:"“We are at the tipping point. Business leaders everywhere are augmenting their workforces with software robots, rapidly accelerating the digital transformation of their entire business and freeing employees to spend time on more impactful work. UiPath is leading this workforce revolution, driven by our core determination to democratize RPA and deliver on our vision of a robot helping every person. I am humbled by the amazing support our customers, partners and investors give us every day, inspiring us to work harder to evolve RPA as the platform that not only unlocks the true potential of AI, but also other emerging technologies. We are just getting started.”",
+          attrib:"Daniel Dines (quoted in the book)"
+        },
 
-          <div id="panelMomentum" class="panel hidden">
-            <ul>
-              <li>UiPath launched <strong>six new releases</strong> of its Enterprise RPA platform.</li>
-              <li>It also attracted large, well-known customers such as <strong>McDonald’s</strong>, <strong>Duracell</strong>, <strong>Google</strong>,
-                  <strong>Nippon Life Insurance</strong>, <strong>Ricoh</strong>, and <strong>Voya Financial</strong>.</li>
-            </ul>
-            <p class="small">
-              In a lecture context: frequent releases signal product maturity; well-known customers signal trust and scalable value.
-            </p>
-          </div>
+        { kind:"reveal", title:"More signals of momentum (click to reveal)", hint:"Platform + customers",
+          blocks:[
+            { kind:"ul", items:[
+              "UiPath announced multiple product releases in a short time window.",
+              "Large, recognizable enterprises were listed as customers—used as proof of “real adoption,” not just hype."
+            ]}
+          ]
+        },
 
-          <hr>
+        { kind:"p", text:
+          "From here, the chapter moves from the “industry story” into foundations: what RPA actually is, how it differs from other automation approaches, and where it helps (and where it struggles)." }
+      ]
+    },
 
-          <p>
-            Leaders in the industry framed this moment as a workforce shift: software robots handling routine work,
-            enabling people to focus on more impactful tasks. They also connected RPA to a broader roadmap—where RPA,
-            AI, and other emerging technologies reinforce each other inside a single automation platform.
-          </p>
+    {
+      type: "reading",
+      title: "What is RPA?",
+      blocks: [
+        { kind:"p", cls:"lead", text:
+          "RPA is best understood as software that performs routine, specified digital actions the way a person would—by operating through user interfaces and moving data between systems. It targets repetitive office work where the “human effort” is mostly clicking, copying, pasting, looking things up, and updating records." },
 
-          <button class="toggleBtn" id="toggleDines" type="button">
-            <span>Reveal: UiPath CEO Daniel Dines (quote)</span>
-            <span id="iconDines">▸</span>
-          </button>
+        { kind:"reveal", title:"Why the term sounds confusing (click to reveal)", hint:"Words vs reality",
+          blocks:[
+            { kind:"ul", items:[
+              "“Robotic” usually means a physical robot, but here it means a software bot.",
+              "“Process” often suggests an end-to-end workflow, but in practice RPA is often about automating tasks inside a process.",
+              "“Automation” is the accurate part: the goal is to execute routine actions consistently and quickly."
+            ]}
+          ]
+        },
 
-          <div id="panelDines" class="panel hidden">
-            <div class="quote">
-“We are
-at the tipping point. Business leaders everywhere are augmenting
-their workforces with software robots, rapidly accelerating the digital
-transformation of their entire business and freeing employees to spend
-time on more impactful work. UiPath is leading this workforce revolution,
-driven by our core determination to democratize RPA and deliver on our
-vision of a robot helping every person. I am humbled by the amazing
-support our customers, partners and investors give us every day, inspiring
-us to work harder to evolve RPA as the platform that not only unlocks the
-true potential of AI, but also other emerging technologies. We are just
-getting started.”
-            </div>
-          </div>
+        { kind:"reveal", title:"Typical bot actions (click to reveal)", hint:"Concrete examples",
+          blocks:[
+            { kind:"ul", items:[
+              "Copy data from one application and paste into another.",
+              "Open a website, log in, and navigate screens.",
+              "Open emails and handle attachments.",
+              "Read/write database entries.",
+              "Extract fields from forms/documents.",
+              "Apply calculations and follow workflow rules."
+            ]}
+          ]
+        },
 
-          <hr>
+        { kind:"reveal", title:"RPA vs an Excel macro (click to reveal)", hint:"Why it’s more general",
+          blocks:[
+            { kind:"p", text:
+              "A macro is usually tied to a single application. RPA tools are designed to work across many applications and environments, often by observing/recording user actions, then replaying them with control logic. Many platforms also add capabilities like monitoring, governance, and (in some cases) AI-assisted features." }
+          ]
+        }
+      ]
+    },
 
-          <p>
-            So why all the interest—especially if demand shows few signs of slowing? The short answer is that RPA sits
-            at the intersection of three very practical needs: reducing routine manual work, dealing with fragmented
-            systems, and improving speed without waiting for long IT modernization projects.
-          </p>
+    {
+      type:"quiz",
+      title:"Quick Check 1",
+      prompt:"Which description fits RPA best?",
+      options:[
+        "A physical robot that replaces a factory worker",
+        "Software bots that perform routine digital tasks through user interfaces",
+        "A complete end-to-end redesign of all company processes",
+        "A spreadsheet feature for writing formulas"
+      ],
+      answerIndex: 1,
+      explanation: "RPA refers to software bots automating routine actions in digital systems (often via the UI)."
+    },
 
-          <button class="toggleBtn" id="toggleDrivers" type="button">
-            <span>Reveal: Key drivers behind RPA interest</span>
-            <span id="iconDrivers">▸</span>
-          </button>
+    {
+      type: "reading",
+      title: "Flavors of RPA",
+      blocks: [
+        { kind:"p", cls:"lead", text:
+          "RPA is often discussed in “flavors,” mainly based on how much human involvement exists and how much the system can handle complexity on its own." },
 
-          <div id="panelDrivers" class="panel hidden">
-            <ul>
-              <li><strong>Efficiency pressure:</strong> high-volume routine work is expensive when done manually.</li>
-              <li><strong>Legacy reality:</strong> many systems don’t integrate cleanly; RPA can bridge gaps.</li>
-              <li><strong>Speed to value:</strong> automation can be deployed faster than rebuilding core systems.</li>
-              <li><strong>Work redesign:</strong> shifting repetitive work to bots can improve consistency and free human attention.</li>
-            </ul>
-          </div>
+        { kind:"reveal", title:"Attended automation (click to reveal)", hint:"Human + bot collaborate",
+          blocks:[
+            { kind:"p", text:
+              "Attended RPA runs alongside a person and helps during live work. A classic scenario is a call center: while the agent speaks, the bot fetches information and fills forms to reduce time and errors." }
+          ]
+        },
 
-          <hr>
+        { kind:"reveal", title:"Unattended automation (click to reveal)", hint:"Triggered, back-office style",
+          blocks:[
+            { kind:"p", text:
+              "Unattended RPA runs without a person present. A bot is triggered by an event (for example, an incoming invoice email), then completes a routine sequence in the background." }
+          ]
+        },
 
-          <p>
-            In the next parts of the lecture, we’ll turn these big claims into clear definitions.
-            What exactly is RPA? Where does it fit inside business process automation? And what are the core elements
-            (people, process, governance, monitoring) that decide whether an RPA initiative succeeds?
-          </p>
+        { kind:"reveal", title:"Intelligent Process Automation (IPA) (click to reveal)", hint:"RPA + AI for harder cases",
+          blocks:[
+            { kind:"p", text:
+              "IPA (sometimes called cognitive automation) blends RPA with AI so the automation can handle more variation—like interpreting documents, classifying items, or making limited judgments under defined policies." }
+          ]
+        }
+      ]
+    },
 
-          <button class="toggleBtn" id="toggleNext" type="button">
-            <span>Reveal: What this lecture will build next</span>
-            <span id="iconNext">▸</span>
-          </button>
+    {
+      type:"quiz",
+      title:"Quick Check 2",
+      prompt:"Unattended RPA usually means:",
+      options:[
+        "A bot that only works when a user clicks ‘Run’ on their desktop",
+        "A bot that runs without human involvement, often triggered by events",
+        "A bot that is always a physical robot",
+        "A bot that can make unlimited strategic decisions"
+      ],
+      answerIndex: 1,
+      explanation: "Unattended bots run in the background and start on triggers (email, schedule, system event)."
+    },
 
-          <div id="panelNext" class="panel hidden">
-            <ul>
-              <li>A precise definition of RPA (task scope, rule-based behavior, typical architecture)</li>
-              <li>Common use cases and “anti-use cases” (where it helps most vs. where it fails)</li>
-              <li>Core elements: selection, governance, exceptions, monitoring, continuous improvement</li>
-            </ul>
-            <p class="small">We can add these as new slides when you’re ready.</p>
-          </div>
-        </div>
-      `
+    {
+      type: "reading",
+      title: "A short history: why RPA emerged",
+      blocks: [
+        { kind:"p", cls:"lead", text:
+          "RPA grew out of a familiar problem: organizations built complex IT landscapes, but people still had to bridge gaps manually—moving data from system to system. RPA’s early roots are linked to techniques like screen scraping and desktop automation." },
+
+        { kind:"reveal", title:"Why ~2012 looked like an inflection point (click to reveal)", hint:"Several forces aligned",
+          blocks:[
+            { kind:"ul", items:[
+              "After economic stress, many organizations pushed harder on cost reduction and productivity.",
+              "Digital transformation pressure increased: companies feared disruption by tech-first competitors.",
+              "Regulation in some industries increased the need for auditability and consistency.",
+              "RPA tools became easier to use and showed faster ROI, encouraging adoption.",
+              "Workforce expectations shifted: people wanted less tedious work and more meaningful tasks."
+            ]}
+          ]
+        }
+      ]
+    },
+
+    {
+      type: "reading",
+      title: "Benefits: why companies adopt RPA",
+      blocks: [
+        { kind:"p", cls:"lead", text:
+          "The strongest argument for RPA is often the combination of speed and measurable impact: small time savings per task can become huge when repeated at scale. But the chapter also highlights additional benefits beyond cost." },
+
+        { kind:"reveal", title:"Where the value shows up (click to reveal)", hint:"Beyond “saving money”",
+          blocks:[
+            { kind:"ul", items:[
+              "Efficiency at scale: seconds saved per task accumulate across teams and months.",
+              "Implementation tends to be lighter than classic ERP/CRM projects because bots sit “on top” of existing systems.",
+              "Compliance support: bots can be configured to follow rules consistently and leave an audit trail.",
+              "Customer service improvements: faster processing and fewer errors can raise satisfaction metrics.",
+              "Employee experience: less time on repetitive work can improve engagement and reduce turnover.",
+              "Data quality: fewer manual re-entries can reduce errors and create more usable datasets."
+            ]}
+          ]
+        }
+      ]
+    },
+
+    {
+      type: "reading",
+      title: "Downsides: what can go wrong",
+      blocks: [
+        { kind:"p", cls:"lead", text:
+          "RPA is not a cure-all. The chapter emphasizes that bots are sensitive to change: if screens, steps, or policies change, automations can break. At scale, governance and security become central concerns." },
+
+        { kind:"reveal", title:"Common limitations & risks (click to reveal)", hint:"What to watch for",
+          blocks:[
+            { kind:"ul", items:[
+              "Total cost of ownership: licenses, training, maintenance, and sometimes consultants.",
+              "Technical debt: bots may need frequent updates as processes and UIs evolve.",
+              "Scaling difficulty: managing many bots requires coordination, monitoring, and standards.",
+              "Security exposure: bots may touch sensitive systems and data; breaches become high-impact.",
+              "Overhype: unrealistic expectations can lead to disappointment if the bot scope is wrong.",
+              "Limits of judgment: for non-routine decisions, humans (or stronger AI) are still needed.",
+              "Virtualized environments: remote desktops can cause failures if the bot can’t reliably “see” screen text."
+            ]}
+          ]
+        }
+      ]
+    },
+
+    {
+      type:"quiz",
+      title:"Quick Check 3",
+      prompt:"A typical RPA risk is:",
+      options:[
+        "Bots never need updates once deployed",
+        "Bots are immune to UI changes",
+        "Bots can create technical debt if processes/screens change often",
+        "RPA always replaces the need for governance"
+      ],
+      answerIndex: 2,
+      explanation: "When screens or steps change, automations can break and require ongoing maintenance (technical debt)."
+    },
+
+    {
+      type: "reading",
+      title: "RPA vs BPM, BPO, and BPA",
+      blocks: [
+        { kind:"p", cls:"lead", text:
+          "Automation terms overlap, but they point to different strategies. The chapter contrasts RPA with management/process redesign approaches and with outsourcing." },
+
+        { kind:"reveal", title:"BPM (Business Process Management) (click to reveal)", hint:"More comprehensive change",
+          blocks:[
+            { kind:"p", text:
+              "BPM aims at broader process improvement and often involves significant redesign, documentation, and training. It can be slower to implement but more structural. In practice, organizations may use BPM to redesign processes and then use RPA to automate remaining gaps." }
+          ]
+        },
+
+        { kind:"reveal", title:"BPO (Business Process Outsourcing) (click to reveal)", hint:"Moving work to another provider",
+          blocks:[
+            { kind:"p", text:
+              "BPO outsources functions like payroll, procurement, or customer support. It can reduce costs via labor arbitrage but introduces dependencies and risks (quality, security, political stability). RPA can automate some BPO-type activities, and many BPO firms also use RPA heavily." }
+          ]
+        },
+
+        { kind:"reveal", title:"BPA (Business Process Automation) (click to reveal)", hint:"End-to-end automation",
+          blocks:[
+            { kind:"p", text:
+              "BPA targets full processes (for example, onboarding) and coordinates many steps and systems. RPA often automates parts of a process; BPA is about orchestrating the complete flow." }
+          ]
+        }
+      ]
+    },
+
+    {
+      type: "reading",
+      title: "Consumer willingness & the workforce of the future",
+      blocks: [
+        { kind:"p", cls:"lead", text:
+          "The chapter also widens the lens: automation is becoming normal in consumer-facing interactions (like chatbots), and workplace automation may reshape roles over time. A key theme is that organizations will need to manage change and reskilling deliberately." },
+
+        { kind:"reveal", title:"What people tolerate in automated service (click to reveal)", hint:"When it works, they accept it",
+          blocks:[
+            { kind:"p", text:
+              "Consumers tend to accept automation when it saves time and improves availability (for example, 24/7 support), but poor experiences can create frustration. This matters because customer-facing automation often becomes part of broader automation roadmaps." }
+          ]
+        },
+
+        { kind:"reveal", title:"Workforce impact (click to reveal)", hint:"Job change + reskilling",
+          blocks:[
+            { kind:"p", text:
+              "RPA can reduce time spent on routine tasks, but it also creates pressure to redesign roles. The long-term benefit depends on whether organizations reinvest saved time into higher-value work and reskill employees for new tasks and responsibilities." }
+          ]
+        }
+      ]
+    },
+
+    {
+      type:"reading",
+      title:"Conclusion & Key takeaways",
+      blocks:[
+        { kind:"p", cls:"lead", text:
+          "RPA is powerful when it is applied to the right kind of work: routine, repeatable digital tasks with clear rules. It can deliver quick wins, but scaling requires governance, maintenance discipline, and realistic expectations." },
+
+        { kind:"reveal", title:"Key takeaways (click to reveal)", hint:"Chapter 1 summary",
+          blocks:[
+            { kind:"ul", items:[
+              "Think of RPA as a “digital worker” automating specific business tasks across systems.",
+              "RPA is broader than a macro because it can span many applications/environments and can be created via recorded actions, plus platform features.",
+              "Attended RPA assists a person in real time; unattended RPA runs without a person and is triggered by events.",
+              "IPA extends RPA with AI for more judgment and variability handling.",
+              "BPM is more comprehensive and process-wide; BPO outsources functions; BPA automates complete processes."
+            ]}
+          ]
+        }
+      ]
+    },
+
+    {
+      type:"quiz",
+      title:"Final Check",
+      prompt:"Which pairing is most accurate?",
+      options:[
+        "BPA = automating part of a process; RPA = end-to-end orchestration",
+        "BPO = outsourcing business functions; BPM = broader process improvement; RPA = task automation across systems",
+        "RPA = physical robots; BPM = spreadsheet formulas",
+        "IPA = no AI; attended RPA = always fully autonomous"
+      ],
+      answerIndex: 1,
+      explanation: "BPO outsources; BPM targets broad improvement; RPA automates tasks across systems; IPA adds AI."
     }
   ]
 };
 
-const stateKey = "processAutomationLecture2_book_v3";
-let state = loadState() || {
-  idx:0,
-  startedAt:new Date().toISOString(),
-  expanded: {
-    // slide 1
-    invest:false, uipath:false, why:false,
-    // slide 2
-    momentum:false, dines:false, drivers:false, next:false
-  }
-};
+/** ---------------------------------------------------------
+ *  Runtime state
+ *  --------------------------------------------------------- */
+const stateKey = "processAutomationLecture2_state_v1";
+let state = loadState() || { idx:0, quiz:{}, startedAt:new Date().toISOString() };
 
 const $ = (sel) => document.querySelector(sel);
 function saveState(){ localStorage.setItem(stateKey, JSON.stringify(state)); }
 function loadState(){ try { return JSON.parse(localStorage.getItem(stateKey)); } catch { return null; } }
 function resetState(){
   localStorage.removeItem(stateKey);
-  state = {
-    idx:0,
-    startedAt:new Date().toISOString(),
-    expanded: { invest:false, uipath:false, why:false, momentum:false, dines:false, drivers:false, next:false }
-  };
+  state = { idx:0, quiz:{}, startedAt:new Date().toISOString() };
   render();
 }
 
+/** ---------------------------------------------------------
+ *  Rendering helpers
+ *  --------------------------------------------------------- */
+function el(tag, cls){
+  const n = document.createElement(tag);
+  if(cls) n.className = cls;
+  return n;
+}
+
+function renderBlocks(parent, blocks){
+  const container = el("div", "reading");
+
+  for(const b of blocks){
+    if(b.kind === "divider"){
+      container.appendChild(el("div","divider"));
+      continue;
+    }
+
+    if(b.kind === "p"){
+      const p = el("p", b.cls || "");
+      p.textContent = b.text;
+      container.appendChild(p);
+      continue;
+    }
+
+    if(b.kind === "ul"){
+      const ul = document.createElement("ul");
+      (b.items || []).forEach(t => {
+        const li = document.createElement("li");
+        li.textContent = t;
+        ul.appendChild(li);
+      });
+      container.appendChild(ul);
+      continue;
+    }
+
+    if(b.kind === "quote"){
+      const q = el("div","quote");
+      const main = el("div","");
+      main.innerHTML = `<span class="qmark">“</span>${escapeHtml(b.text)}<span class="qmark">”</span>`;
+      q.appendChild(main);
+
+      if(b.attrib){
+        const a = el("div","attrib");
+        a.textContent = b.attrib;
+        q.appendChild(a);
+      }
+      container.appendChild(q);
+      continue;
+    }
+
+    if(b.kind === "reveal"){
+      const wrap = el("div","reveal");
+      const header = el("div","revealHeader");
+      const left = el("div","");
+      const t = el("div","revealTitle");
+      t.textContent = b.title || "Details";
+      const hint = el("div","revealHint");
+      hint.textContent = b.hint || "click to expand";
+      left.appendChild(t);
+      left.appendChild(hint);
+
+      const chev = el("div","chev");
+      chev.textContent = "⌄";
+
+      header.appendChild(left);
+      header.appendChild(chev);
+
+      const body = el("div","revealBody");
+      renderBlocks(body, b.blocks || []);
+
+      header.addEventListener("click", () => {
+        wrap.classList.toggle("open");
+      });
+
+      wrap.appendChild(header);
+      wrap.appendChild(body);
+      container.appendChild(wrap);
+      continue;
+    }
+  }
+
+  parent.appendChild(container);
+}
+
+function escapeHtml(s){
+  return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+}
+
+/** ---------------------------------------------------------
+ *  Main render
+ *  --------------------------------------------------------- */
 function render(){
   $("#courseTitle").textContent = lessonData.courseTitle;
   $("#courseSub").textContent = lessonData.courseSub;
 
   const goalsEl = $("#goals");
   goalsEl.innerHTML = "";
-  for(const g of lessonData.learningOutcomes){
+  for(const g of lessonData.learningGoals){
     const li = document.createElement("li");
     li.textContent = g;
     goalsEl.appendChild(li);
@@ -415,89 +652,97 @@ function render(){
   $("#slideCounter").textContent = `${state.idx + 1} / ${slides.length}`;
   $("#progressFill").style.width = `${((state.idx + 1) / slides.length) * 100}%`;
 
-  $("#btnPrev").disabled = (state.idx === 0);
-  $("#btnNext").disabled = (state.idx === slides.length - 1);
+  $("#btnPrev").disabled = state.idx === 0;
+  $("#btnNext").disabled = state.idx === slides.length - 1;
 
   const slide = slides[state.idx];
   const slideEl = $("#slide");
   slideEl.innerHTML = "";
 
-  const h = document.createElement("h1");
-  h.className = "h1";
+  const h = el("h1","h1");
   h.textContent = slide.title;
   slideEl.appendChild(h);
 
-  const content = document.createElement("div");
-  content.innerHTML = slide.html;
-  slideEl.appendChild(content);
-
-  // Bind reveals based on current slide
-  if(state.idx === 0){
-    bindReveal("toggleInvest", "panelInvest", "iconInvest", "invest");
-    bindReveal("toggleUiPath", "panelUiPath", "iconUiPath", "uipath");
-    bindReveal("toggleWhy", "panelWhy", "iconWhy", "why");
-  } else if(state.idx === 1){
-    bindReveal("toggleMomentum", "panelMomentum", "iconMomentum", "momentum");
-    bindReveal("toggleDines", "panelDines", "iconDines", "dines");
-    bindReveal("toggleDrivers", "panelDrivers", "iconDrivers", "drivers");
-    bindReveal("toggleNext", "panelNext", "iconNext", "next");
+  if(slide.type === "reading"){
+    renderBlocks(slideEl, slide.blocks || []);
+    $("#statusLine").textContent = "Reading: open sections to reveal details.";
+  } else if(slide.type === "quiz"){
+    renderQuiz(slideEl, slide);
+  } else {
+    const p = el("p","note");
+    p.textContent = "Unknown slide type.";
+    slideEl.appendChild(p);
   }
-
-  const openCount = Object.values(state.expanded).filter(Boolean).length;
-  $("#statusLine").textContent = `Slide ${state.idx + 1}/${slides.length} • Revealed blocks total: ${openCount}`;
 
   saveState();
 }
 
-function bindReveal(btnId, panelId, iconId, key){
-  const btn = document.getElementById(btnId);
-  const panel = document.getElementById(panelId);
-  const icon = document.getElementById(iconId);
-  if(!btn || !panel || !icon) return;
+/** ---------------------------------------------------------
+ *  Quiz renderer
+ *  --------------------------------------------------------- */
+function renderQuiz(slideEl, slide){
+  const p = document.createElement("p");
+  p.className = "note";
+  p.textContent = slide.prompt;
+  slideEl.appendChild(p);
 
-  const isOpen = !!state.expanded[key];
-  panel.classList.toggle("hidden", !isOpen);
-  icon.textContent = isOpen ? "▾" : "▸";
+  const saved = state.quiz[state.idx] || {};
+  const form = document.createElement("div");
 
-  btn.addEventListener("click", () => {
-    state.expanded[key] = !state.expanded[key];
-    saveState();
-    render();
+  slide.options.forEach((opt, i) => {
+    const row = document.createElement("label");
+    row.className = "quizOpt";
+
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "quiz";
+    input.value = i;
+    input.checked = (saved.selectedIndex === i);
+
+    const span = document.createElement("div");
+    span.textContent = opt;
+
+    row.appendChild(input);
+    row.appendChild(span);
+    form.appendChild(row);
+
+    input.addEventListener("change", () => {
+      state.quiz[state.idx] = { selectedIndex:i, correct:(i === slide.answerIndex) };
+      render();
+    });
   });
+
+  slideEl.appendChild(form);
+
+  if(saved.selectedIndex !== undefined){
+    const fb = document.createElement("div");
+    fb.className = "feedback " + (saved.correct ? "good" : "bad");
+    fb.innerHTML = saved.correct ? `✅ Correct. ${escapeHtml(slide.explanation)}` : `❌ Not quite. ${escapeHtml(slide.explanation)}`;
+    slideEl.appendChild(fb);
+    $("#statusLine").textContent = saved.correct ? "Quiz: correct ✅" : "Quiz: try again ❌";
+  } else {
+    $("#statusLine").textContent = "Quiz: pick an answer.";
+  }
 }
 
-// Navigation
-function nextSlide(){ if(state.idx < lessonData.slides.length - 1){ state.idx++; render(); } }
-function prevSlide(){ if(state.idx > 0){ state.idx--; render(); } }
+/** ---------------------------------------------------------
+ *  Navigation + Hotkeys
+ *  --------------------------------------------------------- */
+function next(){ if(state.idx < lessonData.slides.length - 1){ state.idx++; render(); } }
+function prev(){ if(state.idx > 0){ state.idx--; render(); } }
 
-document.getElementById("btnNext").addEventListener("click", nextSlide);
-document.getElementById("btnPrev").addEventListener("click", prevSlide);
+$("#btnNext").addEventListener("click", next);
+$("#btnPrev").addEventListener("click", prev);
+$("#btnReset").addEventListener("click", resetState);
 
-// Actions
-document.getElementById("btnReset").addEventListener("click", resetState);
-document.getElementById("btnExport").addEventListener("click", () => {
-  const exportObj = {
-    course: lessonData.courseTitle,
-    startedAt: state.startedAt,
-    currentSlide: state.idx + 1,
-    expanded: state.expanded,
-    learningOutcomes: lessonData.learningOutcomes
-  };
-  const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type:"application/json" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "lecture2_progress.json";
-  a.click();
-  URL.revokeObjectURL(a.href);
-  document.getElementById("statusLine").textContent = "Exported progress JSON.";
-});
-
-// Hotkeys
 document.addEventListener("keydown", (e) => {
-  if(e.key === "ArrowRight") nextSlide();
-  if(e.key === "ArrowLeft") prevSlide();
+  if(e.key === "ArrowRight") next();
+  if(e.key === "ArrowLeft") prev();
 });
 
+/** ---------------------------------------------------------
+ *  Start
+ *  --------------------------------------------------------- */
 render();
 </script>
 </body>
