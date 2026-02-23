@@ -196,8 +196,8 @@
 <script>
 /** ---------------------------------------------------------
  *  Lecture 2 (book-like + reveal sections + retry quizzes)
- *  - Quizzes are ALWAYS redoable (like your older working version).
- *  - Export JSON contains ONLY last tries (latest selection per quiz).
+ *  Includes: your original 2 slides (kept), added chapter slides,
+ *  + the new "Key Takeaways" slide with a reveal recap block.
  *  --------------------------------------------------------- */
 const lessonData = {
   courseTitle: "Process Automation – Interactive Lecture 2",
@@ -411,7 +411,7 @@ getting started.”
       `
     },
 
-    /* ---------------------- NEW SLIDE 3 ---------------------- */
+    /* ---------------------- SLIDE 3 ---------------------- */
     {
       type:"content",
       title:"What RPA really means",
@@ -455,7 +455,7 @@ getting started.”
       `
     },
 
-    /* ---------------------- NEW SLIDE 4 ---------------------- */
+    /* ---------------------- SLIDE 4 ---------------------- */
     {
       type:"content",
       title:"How vendors describe RPA (and what’s common)",
@@ -490,7 +490,7 @@ getting started.”
       `
     },
 
-    /* ---------------------- NEW SLIDE 5 ---------------------- */
+    /* ---------------------- SLIDE 5 ---------------------- */
     {
       type:"content",
       title:"RPA is not “just an Excel macro”",
@@ -524,7 +524,7 @@ getting started.”
       `
     },
 
-    /* ---------------------- NEW SLIDE 6 ---------------------- */
+    /* ---------------------- SLIDE 6 ---------------------- */
     {
       type:"content",
       title:"Flavors of RPA: attended, unattended, and IPA",
@@ -554,7 +554,7 @@ getting started.”
       `
     },
 
-    /* ---------------------- NEW SLIDE 7 ---------------------- */
+    /* ---------------------- SLIDE 7 ---------------------- */
     {
       type:"content",
       title:"Benefits and downsides: the honest picture",
@@ -606,7 +606,7 @@ getting started.”
       `
     },
 
-    /* ---------------------- NEW SLIDE 8 ---------------------- */
+    /* ---------------------- SLIDE 8 ---------------------- */
     {
       type:"content",
       title:"RPA vs BPM, BPO, and BPA (one clean map)",
@@ -637,6 +637,75 @@ getting started.”
 
           <p>
             This is why RPA often shows up in digital transformation: it can deliver fast improvements while longer-term redesign and integration continue.
+          </p>
+        </div>
+      `
+    },
+
+    /* ---------------------- SLIDE 9 (NEW: KEY TAKEAWAYS) ---------------------- */
+    {
+      type:"content",
+      title:"Key Takeaways – RPA Foundations",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            Before moving forward, let’s lock in the essentials. These are the ideas you should be able to explain in plain language,
+            without memorizing vendor terminology.
+          </p>
+
+          <hr>
+
+          <ul>
+            <li>
+              <strong>RPA automates specific business tasks</strong> (often across CRM/ERP and other systems).
+              A practical mental model is a <strong>digital worker</strong>.
+            </li>
+
+            <li>
+              <strong>RPA is not a macro.</strong>
+              It can operate across many applications and technology environments, can be built by recording user actions,
+              and may include additional capabilities such as AI components.
+            </li>
+
+            <li>
+              <strong>Attended RPA</strong> supports a person during work.
+              Typical example: call centers, where the bot looks up information while the agent talks to a customer.
+            </li>
+
+            <li>
+              <strong>Unattended RPA</strong> runs without human involvement and is usually triggered by events
+              (e.g., an invoice arriving by email).
+            </li>
+
+            <li>
+              <strong>IPA (Intelligent Process Automation)</strong> extends RPA with AI to handle more variation and judgement,
+              enabling better decision-making in automation flows.
+            </li>
+          </ul>
+
+          <hr>
+
+          <button class="toggleBtn" id="toggleCompareRecap" type="button">
+            <span>Reveal: BPM vs BPO vs BPA (where they fit)</span>
+            <span id="iconCompareRecap">▸</span>
+          </button>
+
+          <div id="panelCompareRecap" class="panel hidden">
+            <ul>
+              <li><strong>BPM:</strong> process redesign and management; typically more comprehensive and structured than RPA.</li>
+              <li><strong>BPO:</strong> outsourcing a business function (payroll, HR, customer support, procurement).</li>
+              <li><strong>BPA:</strong> technology used to automate a complete end-to-end process.</li>
+            </ul>
+
+            <p class="small">
+              Key idea: RPA often automates tasks inside a process; BPA orchestrates the entire process.
+            </p>
+          </div>
+
+          <hr>
+
+          <p>
+            If you remember only one sentence: <strong>RPA speeds up task execution, but long-term success still depends on process thinking and governance.</strong>
           </p>
         </div>
       `
@@ -709,7 +778,7 @@ getting started.”
 /** ---------------------------------------------------------
  *  State (retry quizzes: keep ONLY last attempt per qid)
  *  --------------------------------------------------------- */
-const stateKey = "processAutomationLecture2_book_retryQuiz_v1";
+const stateKey = "processAutomationLecture2_book_retryQuiz_v2";
 let state = loadState() || {
   idx:0,
   startedAt:new Date().toISOString(),
@@ -718,9 +787,11 @@ let state = loadState() || {
     invest:false, uipath:false, why:false,
     // slide 2
     momentum:false, dines:false, drivers:false, next:false,
-    // new slides
+    // added slides
     tasks:false, vendorView:false, notMacro:false, flavors:false,
-    benefits:false, downsides:false, compare:false
+    benefits:false, downsides:false, compare:false,
+    // key takeaways slide
+    compareRecap:false
   },
   quiz: {
     // qid: { selectedIndex, isCorrect, answeredAt }
@@ -739,7 +810,8 @@ function resetState(){
       invest:false, uipath:false, why:false,
       momentum:false, dines:false, drivers:false, next:false,
       tasks:false, vendorView:false, notMacro:false, flavors:false,
-      benefits:false, downsides:false, compare:false
+      benefits:false, downsides:false, compare:false,
+      compareRecap:false
     },
     quiz:{}
   };
@@ -750,10 +822,10 @@ function resetState(){
  *  Render
  *  --------------------------------------------------------- */
 function render(){
-  $("#courseTitle").textContent = lessonData.courseTitle;
-  $("#courseSub").textContent = lessonData.courseSub;
+  document.getElementById("courseTitle").textContent = lessonData.courseTitle;
+  document.getElementById("courseSub").textContent = lessonData.courseSub;
 
-  const goalsEl = $("#goals");
+  const goalsEl = document.getElementById("goals");
   goalsEl.innerHTML = "";
   for(const g of lessonData.learningOutcomes){
     const li = document.createElement("li");
@@ -764,14 +836,14 @@ function render(){
   const slides = lessonData.slides;
   state.idx = Math.max(0, Math.min(state.idx, slides.length - 1));
 
-  $("#slideCounter").textContent = `${state.idx + 1} / ${slides.length}`;
-  $("#progressFill").style.width = `${((state.idx + 1) / slides.length) * 100}%`;
+  document.getElementById("slideCounter").textContent = `${state.idx + 1} / ${slides.length}`;
+  document.getElementById("progressFill").style.width = `${((state.idx + 1) / slides.length) * 100}%`;
 
-  $("#btnPrev").disabled = (state.idx === 0);
-  $("#btnNext").disabled = (state.idx === slides.length - 1);
+  document.getElementById("btnPrev").disabled = (state.idx === 0);
+  document.getElementById("btnNext").disabled = (state.idx === slides.length - 1);
 
   const slide = slides[state.idx];
-  const slideEl = $("#slide");
+  const slideEl = document.getElementById("slide");
   slideEl.innerHTML = "";
 
   const h = document.createElement("h1");
@@ -790,7 +862,7 @@ function render(){
 
   const openCount = Object.values(state.expanded).filter(Boolean).length;
   const quizAnswered = Object.keys(state.quiz || {}).length;
-  $("#statusLine").textContent = `Slide ${state.idx + 1}/${slides.length} • Revealed blocks: ${openCount} • Quick checks (latest tries): ${quizAnswered}/4`;
+  document.getElementById("statusLine").textContent = `Slide ${state.idx + 1}/${slides.length} • Revealed blocks: ${openCount} • Quick checks (latest tries): ${quizAnswered}/4`;
 
   saveState();
 }
@@ -818,6 +890,8 @@ function bindRevealsForSlide(idx){
     bindReveal("toggleDownsides", "panelDownsides", "iconDownsides", "downsides");
   } else if(idx === 7){
     bindReveal("toggleCompare", "panelCompare", "iconCompare", "compare");
+  } else if(idx === 8){
+    bindReveal("toggleCompareRecap", "panelCompareRecap", "iconCompareRecap", "compareRecap");
   }
 }
 
@@ -873,7 +947,6 @@ function renderQuiz(slide){
     b.type = "button";
     b.textContent = `${String.fromCharCode(65 + i)}. ${txt}`;
 
-    // highlight based on LAST attempt
     if(saved){
       if(i === slide.correctIndex) b.classList.add("correct");
       if(i === saved.selectedIndex && !saved.isCorrect) b.classList.add("wrong");
@@ -888,7 +961,7 @@ function renderQuiz(slide){
         answeredAt: new Date().toISOString()
       };
       saveState();
-      render(); // rerender to update highlights + feedback
+      render();
     });
 
     opts.appendChild(b);
