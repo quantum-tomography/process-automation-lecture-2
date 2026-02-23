@@ -157,6 +157,7 @@
 <script>
 /** ---------------------------------------------------------
  *  Two-slide lecture (book-like + reveal sections)
+ *  Slide 2 updated with your new info (rewritten; quote kept verbatim)
  *  --------------------------------------------------------- */
 const lessonData = {
   courseTitle: "Process Automation – Interactive Lecture 2",
@@ -264,16 +265,41 @@ us to partner closely with Automation Anywhere, a market leader.”
       `
     },
 
-    /* ---------------------- NEW SLIDE 2 (rewritten, quote kept verbatim) ---------------------- */
+    /* ---------------------- SLIDE 2 UPDATED ---------------------- */
     {
       type:"content",
-      title:"A leadership perspective",
+      title:"Signals of adoption and momentum",
       html: `
         <div class="book">
           <p class="lead dropcap">
-            Industry leaders often describe RPA as a turning point: not a small productivity trick, but a shift in how work is
-            distributed between people and software. In this view, software robots do the predictable parts of work,
-            while humans keep ownership of judgment, exceptions, and higher-impact decisions.
+            Another reason the RPA market felt “hot” was the clear sign of momentum inside the leading platforms.
+            UiPath, for example, continued to push frequent platform updates while expanding its enterprise offering.
+            At the same time, it began collecting a list of high-visibility customers—exactly the kind of adoption that
+            convinces other organizations that a technology is becoming mainstream.
+          </p>
+
+          <button class="toggleBtn" id="toggleMomentum" type="button">
+            <span>Reveal: Product releases and enterprise customers</span>
+            <span id="iconMomentum">▸</span>
+          </button>
+
+          <div id="panelMomentum" class="panel hidden">
+            <ul>
+              <li>UiPath launched <strong>six new releases</strong> of its Enterprise RPA platform.</li>
+              <li>It also attracted large, well-known customers such as <strong>McDonald’s</strong>, <strong>Duracell</strong>, <strong>Google</strong>,
+                  <strong>Nippon Life Insurance</strong>, <strong>Ricoh</strong>, and <strong>Voya Financial</strong>.</li>
+            </ul>
+            <p class="small">
+              In a lecture context: frequent releases signal product maturity; well-known customers signal trust and scalable value.
+            </p>
+          </div>
+
+          <hr>
+
+          <p>
+            Leaders in the industry framed this moment as a workforce shift: software robots handling routine work,
+            enabling people to focus on more impactful tasks. They also connected RPA to a broader roadmap—where RPA,
+            AI, and other emerging technologies reinforce each other inside a single automation platform.
           </p>
 
           <button class="toggleBtn" id="toggleDines" type="button">
@@ -283,7 +309,7 @@ us to partner closely with Automation Anywhere, a market leader.”
 
           <div id="panelDines" class="panel hidden">
             <div class="quote">
-“The CEO and cofounder of UiPath, Daniel Dines, said: “We are
+“We are
 at the tipping point. Business leaders everywhere are augmenting
 their workforces with software robots, rapidly accelerating the digital
 transformation of their entire business and freeing employees to spend
@@ -293,52 +319,52 @@ vision of a robot helping every person. I am humbled by the amazing
 support our customers, partners and investors give us every day, inspiring
 us to work harder to evolve RPA as the platform that not only unlocks the
 true potential of AI, but also other emerging technologies. We are just
-getting started.”3”
+getting started.”
             </div>
           </div>
 
           <hr>
 
           <p>
-            If this description sounds ambitious, that is exactly the point. RPA vendors position the technology as a practical
-            way to scale operations without constantly adding headcount. When customer demand is strong, the ecosystem expands:
-            implementation partners, training programs, marketplaces for automation components, and governance practices.
+            So why all the interest—especially if demand shows few signs of slowing? The short answer is that RPA sits
+            at the intersection of three very practical needs: reducing routine manual work, dealing with fragmented
+            systems, and improving speed without waiting for long IT modernization projects.
           </p>
 
           <button class="toggleBtn" id="toggleDrivers" type="button">
-            <span>Reveal: Why so much interest? (key drivers)</span>
+            <span>Reveal: Key drivers behind RPA interest</span>
             <span id="iconDrivers">▸</span>
           </button>
 
           <div id="panelDrivers" class="panel hidden">
             <ul>
-              <li><strong>Efficiency pressure:</strong> routine work is expensive when done manually at scale.</li>
-              <li><strong>System reality:</strong> organizations have many legacy systems that don’t integrate smoothly.</li>
-              <li><strong>Speed to value:</strong> RPA can often be deployed faster than full IT modernization.</li>
-              <li><strong>Workforce focus:</strong> freeing people from repetitive tasks can raise quality and morale.</li>
+              <li><strong>Efficiency pressure:</strong> high-volume routine work is expensive when done manually.</li>
+              <li><strong>Legacy reality:</strong> many systems don’t integrate cleanly; RPA can bridge gaps.</li>
+              <li><strong>Speed to value:</strong> automation can be deployed faster than rebuilding core systems.</li>
+              <li><strong>Work redesign:</strong> shifting repetitive work to bots can improve consistency and free human attention.</li>
             </ul>
           </div>
 
           <hr>
 
           <p>
-            This lecture will use that industry excitement as a starting point—not as proof, but as context.
-            Next, we will answer three practical questions: what RPA actually is (in technical terms),
-            what it is not, and which core elements determine whether an automation initiative succeeds or fails.
+            In the next parts of the lecture, we’ll turn these big claims into clear definitions.
+            What exactly is RPA? Where does it fit inside business process automation? And what are the core elements
+            (people, process, governance, monitoring) that decide whether an RPA initiative succeeds?
           </p>
 
           <button class="toggleBtn" id="toggleNext" type="button">
-            <span>Reveal: What we will cover next</span>
+            <span>Reveal: What this lecture will build next</span>
             <span id="iconNext">▸</span>
           </button>
 
           <div id="panelNext" class="panel hidden">
             <ul>
               <li>A precise definition of RPA (task scope, rule-based behavior, typical architecture)</li>
-              <li>Key drivers and use cases (where it helps most, where it fails)</li>
-              <li>Core elements: process selection, governance, exceptions, monitoring, and continuous improvement</li>
+              <li>Common use cases and “anti-use cases” (where it helps most vs. where it fails)</li>
+              <li>Core elements: selection, governance, exceptions, monitoring, continuous improvement</li>
             </ul>
-            <p class="small">We’ll add these sections as new slides later.</p>
+            <p class="small">We can add these as new slides when you’re ready.</p>
           </div>
         </div>
       `
@@ -346,7 +372,7 @@ getting started.”3”
   ]
 };
 
-const stateKey = "processAutomationLecture2_book_v2";
+const stateKey = "processAutomationLecture2_book_v3";
 let state = loadState() || {
   idx:0,
   startedAt:new Date().toISOString(),
@@ -354,7 +380,7 @@ let state = loadState() || {
     // slide 1
     invest:false, uipath:false, why:false,
     // slide 2
-    dines:false, drivers:false, next:false
+    momentum:false, dines:false, drivers:false, next:false
   }
 };
 
@@ -366,7 +392,7 @@ function resetState(){
   state = {
     idx:0,
     startedAt:new Date().toISOString(),
-    expanded: { invest:false, uipath:false, why:false, dines:false, drivers:false, next:false }
+    expanded: { invest:false, uipath:false, why:false, momentum:false, dines:false, drivers:false, next:false }
   };
   render();
 }
@@ -411,6 +437,7 @@ function render(){
     bindReveal("toggleUiPath", "panelUiPath", "iconUiPath", "uipath");
     bindReveal("toggleWhy", "panelWhy", "iconWhy", "why");
   } else if(state.idx === 1){
+    bindReveal("toggleMomentum", "panelMomentum", "iconMomentum", "momentum");
     bindReveal("toggleDines", "panelDines", "iconDines", "dines");
     bindReveal("toggleDrivers", "panelDrivers", "iconDrivers", "drivers");
     bindReveal("toggleNext", "panelNext", "iconNext", "next");
