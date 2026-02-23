@@ -1314,35 +1314,87 @@ scaling, and management of containerized applications.”
     {
       type:"content",
       title:"Flowcharts: the simplest tool with the biggest payoff",
-      html: `
-        <div class="book">
-          <p class="lead dropcap">
-            Flowcharts are common in RPA because they force clarity.
-            First you map the current workflow, then you improve it, and only then you design the bot.
-          </p>
+html: `
+  <div class="book">
+    <p class="lead dropcap">
+      Flowcharts are common in RPA because they force clarity.
+      First you map the current workflow, then you improve it, and only then you design the bot.
+    </p>
 
-          <button class="toggleBtn" id="toggleFlowchartSymbols" type="button">
-            <span>Reveal: Three essential flowchart symbols</span>
-            <span id="iconFlowchartSymbols">▸</span>
-          </button>
-          <div id="panelFlowchartSymbols" class="panel hidden">
-            <ul>
-              <li><strong>Terminator:</strong> rounded rectangle — start/end of a process.</li>
-              <li><strong>Process:</strong> rectangle — a step with one next step.</li>
-              <li><strong>Decision:</strong> diamond — a branching point (yes/no or multiple paths).</li>
-            </ul>
-            <p class="small">
-              A flowchart is not about art—it’s about making the logic visible so everyone agrees what the bot should do.
-            </p>
-          </div>
+    <div class="panel" style="margin-top:14px">
+      <p class="note" style="margin:0 0 10px">
+        The three core symbols you will use constantly:
+      </p>
 
-          <hr>
+      <svg viewBox="0 0 900 260" width="100%" role="img" aria-label="Flowchart symbols: Terminator, Process, Decision">
+        <!-- Terminator -->
+        <g transform="translate(40,55)">
+          <rect x="0" y="0" rx="28" ry="28" width="220" height="90"
+                fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.22)" stroke-width="2"/>
+          <text x="110" y="50" text-anchor="middle" dominant-baseline="middle"
+                fill="#e7eefc" font-size="20" font-weight="700">Start / End</text>
+          <text x="110" y="120" text-anchor="middle"
+                fill="#a8b3cf" font-size="14">Terminator</text>
+        </g>
 
-          <p>
-            The takeaway: a picture is worth a thousand words—especially when you’re trying to automate a messy real process.
-          </p>
-        </div>
-      `
+        <!-- Process -->
+        <g transform="translate(340,55)">
+          <rect x="0" y="0" width="220" height="90"
+                fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.22)" stroke-width="2"/>
+          <text x="110" y="50" text-anchor="middle" dominant-baseline="middle"
+                fill="#e7eefc" font-size="20" font-weight="700">Process Step</text>
+          <text x="110" y="120" text-anchor="middle"
+                fill="#a8b3cf" font-size="14">Process</text>
+        </g>
+
+        <!-- Decision (diamond) -->
+        <g transform="translate(640,40)">
+          <polygon points="110,0 220,70 110,140 0,70"
+                   fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.22)" stroke-width="2"/>
+          <text x="110" y="72" text-anchor="middle" dominant-baseline="middle"
+                fill="#e7eefc" font-size="20" font-weight="700">Yes / No?</text>
+          <text x="110" y="195" text-anchor="middle"
+                fill="#a8b3cf" font-size="14">Decision</text>
+        </g>
+
+        <!-- subtle arrows (optional) -->
+        <g fill="none" stroke="rgba(77,163,255,.55)" stroke-width="3" stroke-linecap="round">
+          <path d="M270 100 C300 100, 310 100, 330 100"/>
+          <path d="M570 100 C600 100, 610 100, 630 100"/>
+        </g>
+        <g fill="rgba(77,163,255,.75)">
+          <polygon points="330,100 318,94 318,106"/>
+          <polygon points="630,100 618,94 618,106"/>
+        </g>
+      </svg>
+
+      <div class="small" style="margin-top:10px">
+        Terminator = start/end • Process = a step • Decision = branching (yes/no or multiple paths)
+      </div>
+    </div>
+
+    <button class="toggleBtn" id="toggleFlowchartSymbols" type="button">
+      <span>Reveal: Quick meaning (one sentence each)</span>
+      <span id="iconFlowchartSymbols">▸</span>
+    </button>
+    <div id="panelFlowchartSymbols" class="panel hidden">
+      <ul>
+        <li><strong>Terminator:</strong> marks where the process begins or ends.</li>
+        <li><strong>Process:</strong> a single action step that leads to the next step.</li>
+        <li><strong>Decision:</strong> a branching point (e.g., approval? yes/no).</li>
+      </ul>
+      <p class="small">
+        Tip: your bot design becomes much easier once these three are clear.
+      </p>
+    </div>
+
+    <hr>
+
+    <p>
+      The takeaway: a picture is worth a thousand words—especially when you’re trying to automate a messy real process.
+    </p>
+  </div>
+`
     },
 
     /* ---------------------- NEW QUIZZES (FOR THE NEW CONTENT) ---------------------- */
