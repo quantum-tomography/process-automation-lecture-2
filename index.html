@@ -196,8 +196,7 @@
 <script>
 /** ---------------------------------------------------------
  *  Lecture 2 (book-like + reveal sections + retry quizzes)
- *  Includes: your original 2 slides (kept), added chapter slides,
- *  + the new "Key Takeaways" slide with a reveal recap block.
+ *  IMPORTANT: Existing slides are unchanged; new slides are appended AFTER the existing quizzes.
  *  --------------------------------------------------------- */
 const lessonData = {
   courseTitle: "Process Automation – Interactive Lecture 2",
@@ -642,7 +641,7 @@ getting started.”
       `
     },
 
-    /* ---------------------- SLIDE 9 (NEW: KEY TAKEAWAYS) ---------------------- */
+    /* ---------------------- SLIDE 9 (KEY TAKEAWAYS) ---------------------- */
     {
       type:"content",
       title:"Key Takeaways – RPA Foundations",
@@ -711,7 +710,7 @@ getting started.”
       `
     },
 
-    /* ---------------------- QUICK CHECKS (RETRY-FRIENDLY) ---------------------- */
+    /* ---------------------- EXISTING QUIZZES (UNCHANGED) ---------------------- */
     {
       type:"quiz",
       title:"Quick Check 1 (Goal 1: What is RPA?)",
@@ -771,6 +770,626 @@ getting started.”
       ],
       correctIndex: 0,
       explanation: "RPA can deliver quicker automation benefits by sitting on top of existing systems—often buying time while broader process redesign and modernization happen."
+    },
+
+    /* ===================================================================
+     *  NEW CONTENT STARTS HERE (AFTER EXISTING QUIZZES)
+     * =================================================================== */
+
+    {
+      type:"content",
+      title:"RPA Skills: The technologies you actually need",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            RPA does not demand deep programming knowledge, but it does require a basic map of modern IT.
+            The difficulty is that technology language is full of acronyms—and many people only know them vaguely.
+          </p>
+
+          <button class="toggleBtn" id="toggleAcronyms" type="button">
+            <span>Reveal: Why jargon can feel impossible</span>
+            <span id="iconAcronyms">▸</span>
+          </button>
+          <div id="panelAcronyms" class="panel hidden">
+            <p class="note" style="margin-top:0">
+              You may see terms like API, OCR, JSON, SaaS, HTTP, CPU, RAM, and many more.
+              The goal is not to memorize a dictionary. The goal is to understand the small set that RPA depends on.
+            </p>
+            <div class="quote">
+“Kubernetes (K8s) is an open-source system for automating deployment,
+scaling, and management of containerized applications.”
+            </div>
+            <p class="small">
+              You do not need Kubernetes to build bots. But you do need the handful of concepts below.
+            </p>
+          </div>
+
+          <hr>
+
+          <p>
+            In the next slides we cover the essentials: on-prem vs cloud, web basics, low-code logic, OCR, databases, APIs,
+            AI/cognitive automation, delivery methods (Agile/Waterfall), DevOps, and flowcharts.
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"On-Premise vs Cloud: what changes for automation",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            The classic approach is <strong>on-premise</strong>: a company buys and runs hardware and software in its own data center.
+            The modern approach is <strong>cloud computing</strong>: systems are delivered via the Internet, often as a subscription service.
+          </p>
+
+          <button class="toggleBtn" id="toggleOnPrem" type="button">
+            <span>Reveal: Why on-prem is still used</span>
+            <span id="iconOnPrem">▸</span>
+          </button>
+          <div id="panelOnPrem" class="panel hidden">
+            <ul>
+              <li><strong>Control:</strong> governance, security, and privacy (important in regulated industries).</li>
+              <li><strong>Customization:</strong> greater freedom to match unique IT policies.</li>
+            </ul>
+          </div>
+
+          <button class="toggleBtn" id="toggleOnPremCosts" type="button">
+            <span>Reveal: The hidden cost side</span>
+            <span id="iconOnPremCosts">▸</span>
+          </button>
+          <div id="panelOnPremCosts" class="panel hidden">
+            <ul>
+              <li><strong>Large upfront cost</strong> + upgrades, monitoring, and maintenance.</li>
+              <li>IT time gets spent on noncore “keep-the-lights-on” work.</li>
+              <li>Point tools + files (spreadsheets everywhere) → <strong>fragmentation</strong> and scattered data.</li>
+            </ul>
+          </div>
+
+          <hr>
+
+          <p>
+            For RPA, this matters because bots must navigate the reality you already have—often mixed systems, partial integration, and many interfaces.
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"Cloud computing in plain words",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            Cloud applications became popular because they reduced installation effort and ongoing upgrades.
+            Instead of buying “big software packages,” organizations increasingly rent software delivered through a browser.
+          </p>
+
+          <button class="toggleBtn" id="toggleCloudSaaSQuote" type="button">
+            <span>Reveal: SaaS idea (short quote)</span>
+            <span id="iconCloudSaaSQuote">▸</span>
+          </button>
+          <div id="panelCloudSaaSQuote" class="panel hidden">
+            <div class="quote">
+“Sell Software-as-a-Service… pay per-user, per-month… delivered immediately via the Internet.”
+            </div>
+            <p class="small">
+              Lecture interpretation: SaaS lowers friction for adoption. But cost and control trade-offs remain.
+            </p>
+          </div>
+
+          <button class="toggleBtn" id="toggleCloudDownsides" type="button">
+            <span>Reveal: Cloud downsides to remember</span>
+            <span id="iconCloudDownsides">▸</span>
+          </button>
+          <div id="panelCloudDownsides" class="panel hidden">
+            <ul>
+              <li><strong>Less platform control</strong> can increase security/privacy exposure.</li>
+              <li><strong>Outages happen</strong> and can be expensive/disruptive.</li>
+              <li><strong>Not always cheap</strong> at enterprise scale.</li>
+            </ul>
+          </div>
+
+          <hr>
+
+          <p>
+            Cloud infrastructure platforms (like AWS) also changed software building: they provide compute, storage, databases,
+            deployment tools, and many other services so teams can move faster.
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"Public, private, hybrid, and multi-cloud",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            “The cloud” is not one thing. Organizations choose different models depending on control, cost, and criticality.
+          </p>
+
+          <button class="toggleBtn" id="toggleCloudModels" type="button">
+            <span>Reveal: The 3 cloud models (+ multi-cloud)</span>
+            <span id="iconCloudModels">▸</span>
+          </button>
+          <div id="panelCloudModels" class="panel hidden">
+            <ul>
+              <li><strong>Public cloud:</strong> shared (multi-tenant) infrastructure with scale advantages.</li>
+              <li><strong>Private cloud:</strong> company-owned data center, more control, fewer scale benefits.</li>
+              <li><strong>Hybrid cloud:</strong> mix of both (e.g., less critical workloads in public cloud).</li>
+              <li><strong>Multi-cloud:</strong> use 2+ clouds for redundancy and risk reduction.</li>
+            </ul>
+          </div>
+
+          <button class="toggleBtn" id="toggleRpaCloudImpact" type="button">
+            <span>Reveal: Why cloud is tricky for RPA</span>
+            <span id="iconRpaCloudImpact">▸</span>
+          </button>
+          <div id="panelRpaCloudImpact" class="panel hidden">
+            <p class="note" style="margin-top:0">
+              Many RPA platforms started as on-premise tools and moved to cloud later.
+              Making RPA “cloud-native” is hard because bots need deep access to many apps and environments.
+            </p>
+            <p class="small">
+              Also: running an on-prem RPA tool on cloud servers is not automatically cloud-native—you still manage upgrades and maintenance.
+            </p>
+          </div>
+
+          <hr>
+
+          <p>
+            In real projects, you often see mixed environments. Good bot design starts with recognizing that reality.
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"Web technology: what bots must handle",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            The web is built on three building blocks: <strong>HTML</strong> (structure), <strong>CSS</strong> (appearance),
+            and <strong>JavaScript</strong> (behavior). Bots must reliably identify elements and read/write data in those environments.
+          </p>
+
+          <button class="toggleBtn" id="toggleWebStack" type="button">
+            <span>Reveal: HTML vs CSS vs JavaScript</span>
+            <span id="iconWebStack">▸</span>
+          </button>
+          <div id="panelWebStack" class="panel hidden">
+            <ul>
+              <li><strong>HTML:</strong> tags that define content and fields.</li>
+              <li><strong>CSS:</strong> styles (layout, borders, shadows, animations).</li>
+              <li><strong>JavaScript:</strong> interactivity (dynamic forms, validation, calculations).</li>
+            </ul>
+            <div class="quote">&lt;strong&gt;This is a Title&lt;/strong&gt;  →  makes text bold</div>
+            <p class="small">
+              Practical tip: when a bot fails on a website, it is often due to dynamic JavaScript changes or unstable selectors.
+            </p>
+          </div>
+
+          <hr>
+
+          <p>
+            You don’t need to be a web developer—but recognizing the stack helps you troubleshoot automation failures quickly.
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"Programming languages and low-code (in RPA)",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            Programming languages express logic: IF/THEN decisions, loops, and data handling.
+            RPA platforms reduce the coding burden through <strong>low-code</strong> tools: drag-and-drop activities and visual workflows.
+          </p>
+
+          <button class="toggleBtn" id="toggleLowCode" type="button">
+            <span>Reveal: What low-code gives you (and what it doesn’t)</span>
+            <span id="iconLowCode">▸</span>
+          </button>
+          <div id="panelLowCode" class="panel hidden">
+            <ul>
+              <li><strong>Less typing:</strong> build logic from visual blocks.</li>
+              <li><strong>Faster iteration:</strong> easier to test and refine flows.</li>
+              <li><strong>Still needs thinking:</strong> you must design workflows, exception paths, and rules correctly.</li>
+            </ul>
+            <p class="small">
+              In practice, low-code means “minimal manual code,” not “zero training.”
+            </p>
+          </div>
+
+          <hr>
+
+          <p>
+            The real skill is not syntax—it is designing reliable automation behavior under real-world variation.
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"OCR: turning documents and screens into text",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            OCR (Optical Character Recognition) converts text inside images or PDFs into machine-readable text.
+            It matters because business work is full of documents: invoices, forms, scans, and attachments.
+          </p>
+
+          <button class="toggleBtn" id="toggleOcrChallenges" type="button">
+            <span>Reveal: Why OCR can fail</span>
+            <span id="iconOcrChallenges">▸</span>
+          </button>
+          <div id="panelOcrChallenges" class="panel hidden">
+            <ul>
+              <li>Font size/shape and styling</li>
+              <li>Skewed or rotated text</li>
+              <li>Blurred/degraded scans</li>
+              <li>Background noise</li>
+              <li>Multiple languages</li>
+            </ul>
+            <p class="small">
+              OCR improved dramatically with stronger algorithms, ML techniques, and better hardware—sometimes approaching near-perfect accuracy in controlled cases.
+            </p>
+          </div>
+
+          <button class="toggleBtn" id="toggleOcrRpa" type="button">
+            <span>Reveal: How OCR helps RPA</span>
+            <span id="iconOcrRpa">▸</span>
+          </button>
+          <div id="panelOcrRpa" class="panel hidden">
+            <ul>
+              <li><strong>Document extraction:</strong> pull fields from invoices/forms into databases.</li>
+              <li><strong>UI robustness:</strong> recognize words/labels so bots can find elements even if layout shifts.</li>
+              <li><strong>Scale:</strong> process large volumes of paperwork (e.g., loan documents) faster.</li>
+            </ul>
+          </div>
+
+          <hr>
+
+          <p>
+            OCR is often the bridge between “unstructured documents” and “structured workflows.”
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"Databases: where most business data lives",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            Behind most business applications there is a database: structured storage that can be searched and updated.
+            Traditionally this meant <strong>relational databases</strong> (tables of rows and columns), often accessed via SQL.
+          </p>
+
+          <button class="toggleBtn" id="toggleDbRelational" type="button">
+            <span>Reveal: Relational databases + SQL (why common)</span>
+            <span id="iconDbRelational">▸</span>
+          </button>
+          <div id="panelDbRelational" class="panel hidden">
+            <ul>
+              <li>Highly structured tables; predictable data types.</li>
+              <li>SQL is a widely used query language (relatively approachable).</li>
+              <li>Many enterprise systems depend on relational databases.</li>
+            </ul>
+          </div>
+
+          <button class="toggleBtn" id="toggleDbModern" type="button">
+            <span>Reveal: Why alternatives appeared (NoSQL + cloud)</span>
+            <span id="iconDbModern">▸</span>
+          </button>
+          <div id="panelDbModern" class="panel hidden">
+            <ul>
+              <li><strong>Data sprawl:</strong> too many tables and scattered data makes “one truth” hard.</li>
+              <li><strong>Cost/scale pressure:</strong> modern needs (cloud, mobile, real-time) stress classic setups.</li>
+              <li><strong>NoSQL:</strong> flexible document-style storage for very large-scale data.</li>
+              <li><strong>Cloud databases:</strong> migration continues because analytics and AI become easier with centralized access.</li>
+            </ul>
+            <p class="small">
+              For RPA: most automations still touch structured data—so understanding “tables, fields, queries” is extremely useful.
+            </p>
+          </div>
+
+          <hr>
+
+          <p>
+            In RPA projects, databases often appear indirectly: the bot reads records from one system and writes updates into another.
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"APIs: automation without clicking (when available)",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            An API (Application Programming Interface) is a software connection between applications.
+            If RPA is “automation by using the UI,” APIs are “automation by direct integration.”
+          </p>
+
+          <button class="toggleBtn" id="toggleApiBasics" type="button">
+            <span>Reveal: What APIs do in simple terms</span>
+            <span id="iconApiBasics">▸</span>
+          </button>
+          <div id="panelApiBasics" class="panel hidden">
+            <ul>
+              <li>One system exposes endpoints; another system requests data or triggers actions.</li>
+              <li>Common style in enterprises: REST APIs.</li>
+              <li>APIs can speed up development when well-designed and stable.</li>
+            </ul>
+          </div>
+
+          <button class="toggleBtn" id="toggleApiTradeoffs" type="button">
+            <span>Reveal: Why APIs are not “free magic”</span>
+            <span id="iconApiTradeoffs">▸</span>
+          </button>
+          <div id="panelApiTradeoffs" class="panel hidden">
+            <ul>
+              <li>Needs technical skills and integration effort.</li>
+              <li>Requires testing + maintenance (APIs can break when systems change).</li>
+              <li>Sometimes limited by metering (request limits) or pricing.</li>
+              <li>Complex environments still have bugs and edge cases.</li>
+            </ul>
+            <p class="small">
+              Why this matters: RPA is often attractive because it is easier to deploy when APIs are missing or hard to build.
+              But strong RPA platforms can also become a pathway to introducing APIs later.
+            </p>
+          </div>
+
+          <hr>
+
+          <p>
+            Practical rule: if a clean API exists, it can be more robust than UI automation; if not, RPA is the pragmatic bridge.
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"AI and RPA: where intelligence actually helps",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            Classic RPA is mostly rule execution—no intelligence required. But AI can expand what is automatable,
+            especially for unstructured data like emails, PDFs, images, and audio.
+          </p>
+
+          <button class="toggleBtn" id="toggleAiBasics" type="button">
+            <span>Reveal: AI in one sentence (and its subfields)</span>
+            <span id="iconAiBasics">▸</span>
+          </button>
+          <div id="panelAiBasics" class="panel hidden">
+            <p class="note" style="margin-top:0">
+              A useful view: AI ingests data and uses algorithms to detect patterns, answer questions, and learn.
+            </p>
+            <ul>
+              <li><strong>Machine learning:</strong> models that learn from data (often classical statistics-based methods).</li>
+              <li><strong>Deep learning:</strong> neural networks that find complex patterns (often using GPU acceleration).</li>
+              <li><strong>NLP:</strong> language understanding for chatbots, assistants, document meaning.</li>
+            </ul>
+          </div>
+
+          <button class="toggleBtn" id="toggleAiLimits" type="button">
+            <span>Reveal: Real AI limitations you should remember</span>
+            <span id="iconAiLimits">▸</span>
+          </button>
+          <div id="panelAiLimits" class="panel hidden">
+            <ul>
+              <li><strong>Bias:</strong> models can amplify biased data and create unfair outcomes.</li>
+              <li><strong>Correlation ≠ causation:</strong> AI often predicts patterns but doesn’t “understand why”.</li>
+              <li><strong>Black box:</strong> deep models can be hard to explain (problem in regulated industries).</li>
+              <li><strong>Common sense:</strong> humans generalize easily; AI often struggles outside its training scope.</li>
+            </ul>
+            <p class="small">
+              This is why good automation still requires governance, testing, and clear accountability.
+            </p>
+          </div>
+
+          <hr>
+
+          <p>
+            Key connection: organizations have lots of <strong>unstructured data</strong>. AI helps convert it into actionable structured signals,
+            which RPA can then execute reliably.
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"Cognitive automation: AI applied to workplace processes",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            Cognitive automation is often discussed alongside RPA.
+            A practical way to think about it: it is AI applied specifically to business work—trying to imitate human actions
+            using capabilities like speech recognition and NLP.
+          </p>
+
+          <button class="toggleBtn" id="toggleCognitiveAuto" type="button">
+            <span>Reveal: How cognitive automation differs from “AI in general”</span>
+            <span id="iconCognitiveAuto">▸</span>
+          </button>
+          <div id="panelCognitiveAuto" class="panel hidden">
+            <ul>
+              <li>Focused on workplace workflows (not general-purpose intelligence).</li>
+              <li>Often combines multiple tools: OCR + NLP + speech + pattern detection.</li>
+              <li>Goal is to replicate human work patterns more closely.</li>
+              <li>Often marketed as needing less data and less specialized talent than advanced AI projects.</li>
+            </ul>
+          </div>
+
+          <hr>
+
+          <p>
+            You can think of IPA (intelligent process automation) as a family that includes cognitive automation approaches.
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"Agile, Scrum, Kanban, Waterfall: how software is built and changed",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            RPA solutions live in real IT organizations. That means they evolve.
+            Understanding the basic development “styles” helps you plan expectations, timelines, and change management.
+          </p>
+
+          <button class="toggleBtn" id="toggleAgileMethods" type="button">
+            <span>Reveal: The four approaches (short definitions)</span>
+            <span id="iconAgileMethods">▸</span>
+          </button>
+          <div id="panelAgileMethods" class="panel hidden">
+            <ul>
+              <li><strong>Agile:</strong> iterative development with frequent feedback and collaboration.</li>
+              <li><strong>Scrum:</strong> Agile subset using short “sprints” (often 1–2 weeks) to deliver increments.</li>
+              <li><strong>Kanban:</strong> visual flow management; continuous improvement; limit work-in-progress.</li>
+              <li><strong>Waterfall:</strong> sequential plan-driven method; detailed upfront stages; harder to change midstream.</li>
+            </ul>
+            <p class="small">
+              In automation programs, the key is to match the method to the risk, uncertainty, and change frequency.
+            </p>
+          </div>
+
+          <hr>
+
+          <p>
+            Practical link to RPA: bots break when interfaces change. Agile/DevOps practices can reduce downtime by making change predictable and tested.
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"DevOps: why operations matters for automation",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            DevOps connects development (“Dev”) and operations (“Ops”) so software changes can be delivered reliably.
+            For automation, this matters because bots and workflows are real production systems that must be monitored and maintained.
+          </p>
+
+          <button class="toggleBtn" id="toggleDevOps" type="button">
+            <span>Reveal: DevOps in simple terms</span>
+            <span id="iconDevOps">▸</span>
+          </button>
+          <div id="panelDevOps" class="panel hidden">
+            <ul>
+              <li><strong>Dev:</strong> building + testing + managing application changes (including QA).</li>
+              <li><strong>Ops:</strong> running systems: infrastructure, networks, security, databases, reliability.</li>
+              <li><strong>Goal:</strong> faster changes without chaos—through small, incremental improvements and shared responsibility.</li>
+            </ul>
+            <p class="small">
+              DevOps becomes even more important in cloud environments where deployments are frequent and distributed.
+            </p>
+          </div>
+
+          <hr>
+
+          <p>
+            Lesson for RPA: treat bots like production software assets—version them, test them, monitor them, and maintain them.
+          </p>
+        </div>
+      `
+    },
+
+    {
+      type:"content",
+      title:"Flowcharts: the simplest tool with the biggest payoff",
+      html: `
+        <div class="book">
+          <p class="lead dropcap">
+            Flowcharts are common in RPA because they force clarity.
+            First you map the current workflow, then you improve it, and only then you design the bot.
+          </p>
+
+          <button class="toggleBtn" id="toggleFlowchartSymbols" type="button">
+            <span>Reveal: Three essential flowchart symbols</span>
+            <span id="iconFlowchartSymbols">▸</span>
+          </button>
+          <div id="panelFlowchartSymbols" class="panel hidden">
+            <ul>
+              <li><strong>Terminator:</strong> rounded rectangle — start/end of a process.</li>
+              <li><strong>Process:</strong> rectangle — a step with one next step.</li>
+              <li><strong>Decision:</strong> diamond — a branching point (yes/no or multiple paths).</li>
+            </ul>
+            <p class="small">
+              A flowchart is not about art—it’s about making the logic visible so everyone agrees what the bot should do.
+            </p>
+          </div>
+
+          <hr>
+
+          <p>
+            The takeaway: a picture is worth a thousand words—especially when you’re trying to automate a messy real process.
+          </p>
+        </div>
+      `
+    },
+
+    /* ---------------------- NEW QUIZZES (FOR THE NEW CONTENT) ---------------------- */
+    {
+      type:"quiz",
+      title:"Quick Check 5 (RPA Skills: On-prem vs Cloud)",
+      goalIndex: 0,
+      qid: "qc5_onprem_cloud",
+      question: "Which statement best captures the on-premise vs cloud difference?",
+      options: [
+        "On-prem means software is always free; cloud always means physical robots",
+        "On-prem means the company hosts and maintains systems; cloud means services delivered via Internet with less local maintenance",
+        "Cloud means no outages are possible; on-prem means no security control",
+        "They are identical terms; only marketing differs"
+      ],
+      correctIndex: 1,
+      explanation: "On-premise is company-hosted and maintained; cloud shifts delivery and much infrastructure management to a provider, with trade-offs in control, reliability, and cost."
+    },
+    {
+      type:"quiz",
+      title:"Quick Check 6 (RPA Skills: OCR)",
+      goalIndex: 0,
+      qid: "qc6_ocr",
+      question: "What is OCR mainly used for in RPA contexts?",
+      options: [
+        "Encrypting databases so bots cannot read them",
+        "Turning text inside images/PDFs into machine-readable text that workflows can use",
+        "Replacing HTML and CSS on websites",
+        "Building cloud servers automatically"
+      ],
+      correctIndex: 1,
+      explanation: "OCR extracts text from scans/images/PDFs so bots can fill forms, update databases, and process documents at scale."
+    },
+    {
+      type:"quiz",
+      title:"Quick Check 7 (RPA Skills: APIs vs UI automation)",
+      goalIndex: 0,
+      qid: "qc7_api_vs_rpa",
+      question: "Which is the best practical rule about APIs vs RPA?",
+      options: [
+        "If a stable API exists, it can be more robust than UI clicking; if not, RPA is often the pragmatic bridge",
+        "APIs require no maintenance and never break",
+        "RPA always replaces APIs and should be used even when an API exists",
+        "RPA only works if the system is fully cloud-native"
+      ],
+      correctIndex: 0,
+      explanation: "APIs can be cleaner and more stable when available; RPA is valuable when APIs are missing, slow to build, or too complex to integrate quickly."
     }
   ]
 };
@@ -778,7 +1397,7 @@ getting started.”
 /** ---------------------------------------------------------
  *  State (retry quizzes: keep ONLY last attempt per qid)
  *  --------------------------------------------------------- */
-const stateKey = "processAutomationLecture2_book_retryQuiz_v2";
+const stateKey = "processAutomationLecture2_book_retryQuiz_v3";
 let state = loadState() || {
   idx:0,
   startedAt:new Date().toISOString(),
@@ -787,11 +1406,25 @@ let state = loadState() || {
     invest:false, uipath:false, why:false,
     // slide 2
     momentum:false, dines:false, drivers:false, next:false,
-    // added slides
+    // slide 3..9
     tasks:false, vendorView:false, notMacro:false, flavors:false,
     benefits:false, downsides:false, compare:false,
-    // key takeaways slide
-    compareRecap:false
+    compareRecap:false,
+    // NEW slides after quizzes
+    acronyms:false,
+    onPrem:false, onPremCosts:false,
+    cloudSaaSQuote:false, cloudDownsides:false,
+    cloudModels:false, rpaCloudImpact:false,
+    webStack:false,
+    lowCode:false,
+    ocrChallenges:false, ocrRpa:false,
+    dbRelational:false, dbModern:false,
+    apiBasics:false, apiTradeoffs:false,
+    aiBasics:false, aiLimits:false,
+    cognitiveAuto:false,
+    agileMethods:false,
+    devops:false,
+    flowchartSymbols:false
   },
   quiz: {
     // qid: { selectedIndex, isCorrect, answeredAt }
@@ -811,7 +1444,21 @@ function resetState(){
       momentum:false, dines:false, drivers:false, next:false,
       tasks:false, vendorView:false, notMacro:false, flavors:false,
       benefits:false, downsides:false, compare:false,
-      compareRecap:false
+      compareRecap:false,
+      acronyms:false,
+      onPrem:false, onPremCosts:false,
+      cloudSaaSQuote:false, cloudDownsides:false,
+      cloudModels:false, rpaCloudImpact:false,
+      webStack:false,
+      lowCode:false,
+      ocrChallenges:false, ocrRpa:false,
+      dbRelational:false, dbModern:false,
+      apiBasics:false, apiTradeoffs:false,
+      aiBasics:false, aiLimits:false,
+      cognitiveAuto:false,
+      agileMethods:false,
+      devops:false,
+      flowchartSymbols:false
     },
     quiz:{}
   };
@@ -861,13 +1508,16 @@ function render(){
   }
 
   const openCount = Object.values(state.expanded).filter(Boolean).length;
+  const quizSlides = lessonData.slides.filter(s => s.type === "quiz").length;
   const quizAnswered = Object.keys(state.quiz || {}).length;
-  document.getElementById("statusLine").textContent = `Slide ${state.idx + 1}/${slides.length} • Revealed blocks: ${openCount} • Quick checks (latest tries): ${quizAnswered}/4`;
+  document.getElementById("statusLine").textContent =
+    `Slide ${state.idx + 1}/${slides.length} • Revealed blocks: ${openCount} • Quick checks (latest tries): ${quizAnswered}/${quizSlides}`;
 
   saveState();
 }
 
 function bindRevealsForSlide(idx){
+  // Existing bindings (unchanged indices up to slide 9)
   if(idx === 0){
     bindReveal("toggleInvest", "panelInvest", "iconInvest", "invest");
     bindReveal("toggleUiPath", "panelUiPath", "iconUiPath", "uipath");
@@ -892,6 +1542,45 @@ function bindRevealsForSlide(idx){
     bindReveal("toggleCompare", "panelCompare", "iconCompare", "compare");
   } else if(idx === 8){
     bindReveal("toggleCompareRecap", "panelCompareRecap", "iconCompareRecap", "compareRecap");
+  }
+
+  // New slides appended AFTER existing quizzes:
+  // Slides 0..8 are content, 9..12 are quizzes, so new content starts at idx 13.
+  else if(idx === 13){
+    bindReveal("toggleAcronyms", "panelAcronyms", "iconAcronyms", "acronyms");
+  } else if(idx === 14){
+    bindReveal("toggleOnPrem", "panelOnPrem", "iconOnPrem", "onPrem");
+    bindReveal("toggleOnPremCosts", "panelOnPremCosts", "iconOnPremCosts", "onPremCosts");
+  } else if(idx === 15){
+    bindReveal("toggleCloudSaaSQuote", "panelCloudSaaSQuote", "iconCloudSaaSQuote", "cloudSaaSQuote");
+    bindReveal("toggleCloudDownsides", "panelCloudDownsides", "iconCloudDownsides", "cloudDownsides");
+  } else if(idx === 16){
+    bindReveal("toggleCloudModels", "panelCloudModels", "iconCloudModels", "cloudModels");
+    bindReveal("toggleRpaCloudImpact", "panelRpaCloudImpact", "iconRpaCloudImpact", "rpaCloudImpact");
+  } else if(idx === 17){
+    bindReveal("toggleWebStack", "panelWebStack", "iconWebStack", "webStack");
+  } else if(idx === 18){
+    bindReveal("toggleLowCode", "panelLowCode", "iconLowCode", "lowCode");
+  } else if(idx === 19){
+    bindReveal("toggleOcrChallenges", "panelOcrChallenges", "iconOcrChallenges", "ocrChallenges");
+    bindReveal("toggleOcrRpa", "panelOcrRpa", "iconOcrRpa", "ocrRpa");
+  } else if(idx === 20){
+    bindReveal("toggleDbRelational", "panelDbRelational", "iconDbRelational", "dbRelational");
+    bindReveal("toggleDbModern", "panelDbModern", "iconDbModern", "dbModern");
+  } else if(idx === 21){
+    bindReveal("toggleApiBasics", "panelApiBasics", "iconApiBasics", "apiBasics");
+    bindReveal("toggleApiTradeoffs", "panelApiTradeoffs", "iconApiTradeoffs", "apiTradeoffs");
+  } else if(idx === 22){
+    bindReveal("toggleAiBasics", "panelAiBasics", "iconAiBasics", "aiBasics");
+    bindReveal("toggleAiLimits", "panelAiLimits", "iconAiLimits", "aiLimits");
+  } else if(idx === 23){
+    bindReveal("toggleCognitiveAuto", "panelCognitiveAuto", "iconCognitiveAuto", "cognitiveAuto");
+  } else if(idx === 24){
+    bindReveal("toggleAgileMethods", "panelAgileMethods", "iconAgileMethods", "agileMethods");
+  } else if(idx === 25){
+    bindReveal("toggleDevOps", "panelDevOps", "iconDevOps", "devops");
+  } else if(idx === 26){
+    bindReveal("toggleFlowchartSymbols", "panelFlowchartSymbols", "iconFlowchartSymbols", "flowchartSymbols");
   }
 }
 
@@ -1006,7 +1695,7 @@ document.getElementById("btnExport").addEventListener("click", () => {
     startedAt: state.startedAt,
     currentSlide: state.idx + 1,
     expanded: state.expanded,
-    quiz_last_tries: state.quiz,   // only last tries (qid -> last attempt)
+    quiz_last_tries: state.quiz,
     learningOutcomes: lessonData.learningOutcomes
   };
   const blob = new Blob([JSON.stringify(exportObj, null, 2)], { type:"application/json" });
