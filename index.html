@@ -1443,7 +1443,48 @@ html: `
       correctIndex: 0,
       explanation: "APIs can be cleaner and more stable when available; RPA is valuable when APIs are missing, slow to build, or too complex to integrate quickly."
     }
-  ]
+  {
+  type:"content",
+  title:"Key Takeaways (RPA Skills: Core tech concepts)",
+  html: `
+    <div class="book">
+      <p class="lead dropcap">
+        RPA works best when you understand a small set of technology concepts. You don’t need to be a programmer,
+        but you do need a mental model for where software runs, how systems communicate, and how data is handled.
+      </p>
+
+      <div class="panel">
+        <ul>
+          <li><strong>On-premise:</strong> software installed and maintained in a company’s own data center. Typically offers more control, security, and privacy, but can be expensive (licenses + hardware + ongoing maintenance) and harder to modernize.</li>
+
+          <li><strong>Cloud computing:</strong> software accessed via the Internet (often through a browser). Often reduces hardware burden and maintenance and makes upgrades smoother, but introduces risks around security, privacy, and reliability (outages happen).</li>
+
+          <li><strong>Cloud types:</strong> <em>private</em> (your own data center), <em>public</em> (shared provider infrastructure), and <em>hybrid</em> (mix). Major providers include <strong>AWS</strong>, <strong>Microsoft Azure</strong>, and <strong>Google Cloud</strong>.</li>
+
+          <li><strong>Web basics:</strong> <strong>HTML</strong> structures pages, <strong>CSS</strong> controls appearance (layout, borders, animation), and <strong>JavaScript</strong> enables interactivity (forms, logic, dynamic behavior). RPA often automates web apps through these layers.</li>
+
+          <li><strong>Programming vs low-code:</strong> programming languages instruct computers with code, but most RPA development is <strong>low-code</strong>—visual building blocks, drag-and-drop workflows, and reusable activities.</li>
+
+          <li><strong>OCR:</strong> Optical Character Recognition turns images/PDFs into readable text. It’s crucial when automation touches documents (forms, invoices, scanned files).</li>
+
+          <li><strong>Databases:</strong> store structured information. Relational databases remain common; newer models like <strong>NoSQL</strong> are designed for flexible, large-scale data (often used in Big Data settings).</li>
+
+          <li><strong>APIs:</strong> software “connectors” between applications. They can automate reliably, but they often require more technical effort to build, integrate, test, and maintain than an RPA bot.</li>
+
+          <li><strong>AI:</strong> uses large datasets to detect patterns and produce insights (e.g., ML, deep learning, NLP). AI is becoming increasingly important in RPA—especially for handling unstructured data like documents and emails.</li>
+        </ul>
+      </div>
+
+      <hr>
+
+      <p class="small">
+        Practical rule: use the simplest automation that solves the problem. If an API exists and is stable, it may be best.
+        If systems are fragmented or UI-based, RPA may be faster. If data is unstructured, AI + OCR can unlock automation.
+      </p>
+    </div>
+  `
+}
+  ],
 };
 
 /** ---------------------------------------------------------
